@@ -1,5 +1,8 @@
 # NiceSetSpawn
 
+## Last Build Status:
+[![Maven CI/CD](https://github.com/Edulynch/NiceSetSpawn/actions/workflows/main.yml/badge.svg)](https://github.com/Edulynch/NiceSetSpawn/actions/workflows/main.yml)
+
 ## Support Versión:
 1.8, 1.9, 1.10, 1.11, 1.12, 1.13, 1.14, 1.15, 1.16, 1.17
 
@@ -46,7 +49,11 @@
  - Reload config.
 
 ## Donation:
-https://ko-fi.com/edulynch
+ - https://ko-fi.com/edulynch
+ - https://www.buymeacoffee.com/edulynch
+
+## Discord:
+https://discord.gg/fUhdvyTE
 
 ## TODO
  - Translatable
