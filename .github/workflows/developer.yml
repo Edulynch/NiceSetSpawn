@@ -1,5 +1,5 @@
 
-name: Maven CI/CD
+name: Developer CI/CD
 
 on:
  push:
