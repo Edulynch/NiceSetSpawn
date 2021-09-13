@@ -1,7 +1,8 @@
 # NiceSetSpawn
 
 ## Last Build Status:
-[![Maven CI/CD](https://github.com/Edulynch/NiceSetSpawn/actions/workflows/main.yml/badge.svg)](https://github.com/Edulynch/NiceSetSpawn/actions/workflows/main.yml)
+ - Main: [![Main CI/CD](https://github.com/Edulynch/NiceSetSpawn/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/Edulynch/NiceSetSpawn/actions/workflows/main.yml)
+ - Developer: [![Developer CI/CD](https://github.com/Edulynch/NiceSetSpawn/actions/workflows/developer.yml/badge.svg?branch=developer)](https://github.com/Edulynch/NiceSetSpawn/actions/workflows/developer.yml)
 
 ## Support Versión:
 1.8, 1.9, 1.10, 1.11, 1.12, 1.13, 1.14, 1.15, 1.16, 1.17
