@@ -1,6 +1,8 @@
 package me.edulynch.nicesetspawn.listeners;
 
 import me.edulynch.nicesetspawn.Main;
+import me.edulynch.nicesetspawn.utils.Constants;
+import me.edulynch.nicesetspawn.utils.Utils;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,7 +34,11 @@ public class EntityDamageByEntity implements Listener {
     }
 
     public static boolean containsKey(Player p) {
-        return pvp.containsKey(p);
+        if (!Utils.hasPermission(p, Constants.PERMISSION_BYPASSPVP)) {
+            return pvp.containsKey(p);
+        } else {
+            return false;
+        }
     }
 
     public static void remove(Player p) {

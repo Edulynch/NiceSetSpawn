@@ -5,7 +5,9 @@
  - Developer: [![Developer CI/CD](https://github.com/Edulynch/NiceSetSpawn/actions/workflows/developer.yml/badge.svg?branch=developer)](https://github.com/Edulynch/NiceSetSpawn/actions/workflows/developer.yml)
 
 ## Support Versión:
-1.8, 1.9, 1.10, 1.11, 1.12, 1.13, 1.14, 1.15, 1.16, 1.17
+1.8, 1.9, 1.10, 1.11, 1.12, 1.13, 1.14, 1.15, 1.16, 1.17
+
+## This Plugin Need [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/) to Work.
 
 ## Commands & Permissions
 
@@ -60,4 +62,18 @@ https://discord.gg/fUhdvyTE
  - Translatable
  - Fly Toggle
  - Block PVP in Join Temporarily
+ - check new version
  - Request by Issues
+
+## pom.xml
+#### (Replace outputDirectory tag with yours)
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <version>2.3.1</version>
+    <configuration>
+        <outputDirectory>C:/Users/MyUser/Desktop/MINECRAFT_SERVER/plugins/</outputDirectory>
+    </configuration>
+</plugin>
+```
