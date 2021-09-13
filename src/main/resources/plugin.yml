@@ -1,0 +1,79 @@
+name: NiceSetSpawn
+version: '${project.version}'
+main: me.edulynch.nicesetspawn.Main
+api-version: 1.17
+softdepend: [ PlaceholderAPI ]
+authors: [ Edulynch ]
+description: A Minecraft Plugin to set the global spawn with useful configuration and translatable.
+website: https://github.com/Edulynch/NiceSetSpawn
+
+commands:
+  spawn:
+    description: Teleport to spawn.
+    permission: nicesetspawn.spawn
+    usage: |
+      Commands:
+       - /spawn
+  setspawn:
+    description: Set spawn for all players.
+    permission: nicesetspawn.setspawn
+    usage: |
+      Commands:
+       - /setspawn
+  nss:
+    aliases: [ nss, nicess, nsspawn, nicesetspawn ]
+    description: General command.
+    permission: nicesetspawn.help
+    usage: |
+      Commands:
+       - /nss help - show NiceSetSpawn help
+       - /nss info - Show NiceSetSpawn Information
+       - /nss reload - Reload NiceSetSpawn configs
+       - /nss setdelay [seconds] - Set delay in seconds
+
+permissions:
+  nicesetspawn.help:
+    description: Allows you to get help with the command /nss help
+    default: op
+  nicesetspawn.info:
+    description: Allows you to use the command /nss info
+    default: op
+  nicesetspawn.setspawn:
+    description: Allows you to use the command /setspawn
+    default: op
+  nicesetspawn.spawn:
+    description: Allows you to use the command /spawn
+    default: true
+  nicesetspawn.reload:
+    description: Allows you to use the command /nss reload
+    default: op
+  nicesetspawn.setdelay:
+    description: Allows you to use the command /nss setdelay
+    default: op
+  nicesetspawn.teleportothers:
+    description: Allows you to teleport other players to spawn
+    default: op
+  nicesetspawn.bypassdelay:
+    description: Allows you to bypass the nss delay
+    default: op
+  nicesetspawn.bypasspvp:
+    description: Allows you to bypass block of /spawn command
+    default: op
+  nicesetspawn.*:
+    description: Global permission
+    default: false
+    children:
+      nicesetspawn.all: true
+  nicesetspawn.all:
+    description: Global permission
+    default: false
+    children:
+      nicesetspawn.help: true
+      nicesetspawn.info: true
+      nicesetspawn.setspawn: true
+      nicesetspawn.spawn: true
+      nicesetspawn.reload: true
+      nicesetspawn.setdelay: true
+      nicesetspawn.teleportothers: true
+      nicesetspawn.bypassdelay: true
+      nicesetspawn.bypasspvp: true
