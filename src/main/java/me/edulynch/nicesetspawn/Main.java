@@ -1,12 +1,14 @@
 package me.edulynch.nicesetspawn;
 
 import me.edulynch.nicesetspawn.commands.NiceSetSpawnCMD;
+import me.edulynch.nicesetspawn.commands.SetSpawnCMD;
 import me.edulynch.nicesetspawn.commands.SpawnCMD;
 import me.edulynch.nicesetspawn.configs.Config;
 import me.edulynch.nicesetspawn.listeners.*;
-import me.edulynch.nicesetspawn.commands.SetSpawnCMD;
 import me.edulynch.nicesetspawn.placeholderapi.NSSExpansion;
 import me.edulynch.nicesetspawn.utils.Constants;
+import org.bstats.bukkit.Metrics;
+import org.bstats.charts.SingleLineChart;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
@@ -19,10 +21,6 @@ import java.util.logging.Logger;
 public final class Main extends JavaPlugin {
 
     private static Main instance;
-
-    public static FileConfiguration messagesConfig;
-
-    private static boolean new_version = false;
 
     @Override
     public void onEnable() {
@@ -40,8 +38,18 @@ public final class Main extends JavaPlugin {
         }
 
         registerCommands();
+        registerMetrics();
 
+    }
 
+    private void registerMetrics() {
+        int pluginId = 12777; // <-- Replace with the id of your plugin!
+        Metrics metrics = new Metrics(this, pluginId);
+        /* Players Online Metric */
+        metrics.addCustomChart(new SingleLineChart("players", () -> {
+            // (This is useless as there is already a player chart by default.)
+            return Bukkit.getOnlinePlayers().size();
+        }));
     }
 
     private void registerListeners() {
@@ -103,25 +111,8 @@ public final class Main extends JavaPlugin {
         return getInstance().getConfig();
     }
 
-
-    // -------------------------------------
-
     public static Main getInstance() {
         return instance;
-    }
-
-    // -------------------------------------
-
-    public static String getPluginVersion() {
-        return instance.getDescription().getVersion();
-    }
-
-    public static boolean hasNewVersion() {
-        return new_version;
-    }
-
-    public static String getConfigVersion() {
-        return Constants.PLUGIN_VERSION;
     }
 
 }

@@ -51,7 +51,7 @@ permissions:
     description: Allows you to use the command /nss setdelay
     default: op
   nicesetspawn.teleportothers:
-    description: Allows you to teleport other players to spawn
+    description: Allows you to teleport other players to spawn /spawn [player]
     default: op
   nicesetspawn.bypassdelay:
     description: Allows you to bypass the nss delay

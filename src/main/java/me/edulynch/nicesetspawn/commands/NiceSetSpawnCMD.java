@@ -37,21 +37,27 @@ public class NiceSetSpawnCMD implements CommandTab {
     private void showInfo(CommandSender sender) {
         if (Utils.hasPermission(sender, Constants.PERMISSION_INFO)) {
             sender.sendMessage("§6===== §bNiceSetSpawn v" + Constants.PLUGIN_VERSION + " §6=====");
-            TextComponent bukkit = new TextComponent("https://dev.bukkit.org/projects/nicesetspawn/");
-            bukkit.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://dev.bukkit.org/projects/nicesetspawn/"));
-            bukkit.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Visit the Bukkit page!")));
-            sender.sendMessage("§bBukkit Page:");
-            sender.spigot().sendMessage(bukkit);
-//            TextComponent spigotmc = new TextComponent("https://www.spigotmc.org/");
-//            spigotmc.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/"));
-//            spigotmc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Visit the SpigotMC page!")));
-            sender.sendMessage("§bSpigotMC Page:");
-//            sender.spigot().sendMessage(spigotmc);
-            TextComponent github = new TextComponent("https://www.github.com/Edulync/NiceSetSpawn/");
-            github.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.github.com/Edulync/NiceSetSpawn/"));
-            github.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Visit the Github page!")));
+            TextComponent textComponent;
+//            textComponent = new TextComponent("https://dev.bukkit.org/projects/nicesetspawn/");
+//            textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://dev.bukkit.org/projects/nicesetspawn/"));
+//            textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Visit the Bukkit page!")));
+//            sender.sendMessage("§bBukkit Page:");
+//            sender.spigot().sendMessage(textComponent);
+//            textComponent = new TextComponent("https://www.spigotmc.org/");
+//            textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/"));
+//            textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Visit the SpigotMC page!")));
+//            sender.sendMessage("§bSpigotMC Page:");
+//            sender.spigot().sendMessage(textComponent);
+            textComponent = new TextComponent("https://www.github.com/Edulync/NiceSetSpawn/");
+            textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.github.com/Edulync/NiceSetSpawn/"));
+            textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Visit the Github page!")));
             sender.sendMessage("§bGithub Page:");
-            sender.spigot().sendMessage(github);
+            sender.spigot().sendMessage(textComponent);
+            textComponent = new TextComponent("https://discord.gg/NSt6SrHC");
+            textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/NSt6SrHC"));
+            textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Visit the Discord!")));
+            sender.sendMessage("§bDiscord:");
+            sender.spigot().sendMessage(textComponent);
         } else {
             sender.sendMessage(ConfigUtil.getNoPermission());
         }

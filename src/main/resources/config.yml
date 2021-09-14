@@ -6,9 +6,9 @@ teleport-to-spawn-on:
   void-fall: true
 teleport-delay-in-seconds: 3
 check-version:
-  enabled: false
-  warning-message: '&7New update available on the official page.'
-metrics: false
+  enabled: true
+  warning-message: New update available on the official page.
+  error-message: Error Checking for new Version.
 disable-spawn-command-in-pvp:
   enabled: true
   message: '&cYou can not go to spawn when you are in PvP.'
