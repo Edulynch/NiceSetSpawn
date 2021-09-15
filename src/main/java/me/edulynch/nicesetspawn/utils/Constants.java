@@ -7,7 +7,7 @@ public class Constants {
     //########################### PLUGIN ############################
 
     public final static String PLUGIN_NAME = "NiceSetSpawn";
-    public final static String PLUGIN_VERSION = "1.1";
+    public final static String PLUGIN_VERSION = "1.2";
     public final static String PLUGIN_AUTHOR = "Edulynch";
 
     //########################## MESSAGES ###########################

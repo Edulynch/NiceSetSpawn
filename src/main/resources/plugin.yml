@@ -1,7 +1,7 @@
 name: NiceSetSpawn
 version: '${project.version}'
 main: me.edulynch.nicesetspawn.Main
-api-version: 1.17
+api-version: 1.13
 softdepend: [ PlaceholderAPI ]
 authors: [ Edulynch ]
 description: A Minecraft Plugin to set the global spawn with useful configuration and translatable.
