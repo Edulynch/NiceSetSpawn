@@ -1,9 +1,9 @@
 package me.edulynch.nicesetspawn.commands;
 
-
-import me.edulynch.nicesetspawn.Main;
 import me.edulynch.nicesetspawn.Spawn;
-import me.edulynch.nicesetspawn.configs.ConfigUtil;
+import me.edulynch.nicesetspawn.utils.ConfigUtil;
+import me.edulynch.nicesetspawn.enumMessages.enumConfig;
+import me.edulynch.nicesetspawn.enumMessages.enumLang;
 import me.edulynch.nicesetspawn.interfaces.CommandTab;
 import me.edulynch.nicesetspawn.listeners.EntityDamageByEntity;
 import me.edulynch.nicesetspawn.utils.Constants;
@@ -29,13 +29,13 @@ public class SpawnCMD implements CommandTab {
 
         if (args.length == 0) {
 
-            if (EntityDamageByEntity.containsKey(player) && Main.getConfiguration().getBoolean("disable-spawn-command-in-pvp.enabled")) {
+            if (EntityDamageByEntity.containsKey(player) && enumConfig.DISABLE_SPAWN_COMMAND_IN_PVP_ENABLED.getConfigBoolean()) {
 
-                sender.sendMessage(Utils.color(Main.getConfiguration().getString("disable-spawn-command-in-pvp.message")));
+                sender.sendMessage(enumLang.DISABLE_SPAWN_COMMAND_IN_PVP_MESSAGE.getConfigValue(new String[]{}));
 
             } else {
                 if (!Utils.hasPermission(player, Constants.PERMISSION_BYPASSDELAY)) {
-                    if (Main.getConfiguration().getBoolean("spawn-command.need-permission")) {
+                    if (enumConfig.SPAWN_COMMAND_NEED_PERMISSION.getConfigBoolean()) {
                         if (Utils.hasPermission(player, Constants.PERMISSION_SPAWN)) {
                             Spawn.spawn(player, false);
                         } else {
@@ -59,10 +59,11 @@ public class SpawnCMD implements CommandTab {
                     EntityDamageByEntity.remove(target);
                     Spawn.removeDelay(target);
                     Spawn.spawn(target, true);
-                    String messageTeleportToPlayer = Main.getConfiguration().getString("messages.teleported-other-player");
+                    String messageTeleportToPlayer = enumLang.MESSAGES_TELEPORTED_OTHER_PLAYER.getConfigValue(new String[]{});
                     if (messageTeleportToPlayer != null) {
-                        player.sendMessage(Utils.color(messageTeleportToPlayer.
-                                replaceAll("%target%", target.getName())));
+                        player.sendMessage(enumLang.MESSAGES_TELEPORTED_OTHER_PLAYER.getConfigValue(new String[]{
+                                target.getName()
+                        }));
                     } else {
                         sender.sendMessage(ConfigUtil.getPlayerNotFound());
                     }
@@ -80,7 +81,7 @@ public class SpawnCMD implements CommandTab {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if (args.length == 1 && Utils.hasPermission(sender, "teleportothers")) {
+        if (args.length == 1 && Utils.hasPermission(sender, Constants.PERMISSION_TELEPORTOTHERS)) {
             return null; // Bukkit will list online players.
         }
         return Collections.emptyList();

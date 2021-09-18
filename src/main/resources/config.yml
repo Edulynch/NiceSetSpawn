@@ -1,4 +1,4 @@
-global-message-prefix: '&6[NiceSetSpawn] &r'
+translate-messages: 'en_US'
 teleport-to-spawn-on:
   first-join: true
   join: true
@@ -7,55 +7,27 @@ teleport-to-spawn-on:
 teleport-delay-in-seconds: 3
 check-version:
   enabled: true
-  warning-message: New update available on the official page.
-  error-message: Error Checking for new Version.
 disable-spawn-command-in-pvp:
   enabled: true
-  message: '&cYou can not go to spawn when you are in PvP.'
 options:
   set-gamemode-on-join:
     enabled: true
     gamemode: 0
   set-fly-on-join:
     enabled: false
-    message: '&7You can fly now'
   set-max-health-on-join: false
   set-max-food-level-on-join: false
+  disable-fall-damage: true
 spawn-command:
   message-enabled: true
-  message: '&7Teleported to spawn.'
   need-permission: false
-messages:
-  no-permission: '&cYou do not have permission to use this command.'
-  teleport-spawn-message: '&7Teleport to spawn.'
-  teleport-setspawn-message: '&7Set spawn.'
-  commands-list-message: '&7Commands list.'
-  plugin-info-message: '&7Plugin info.'
-  seconds-message: seconds
-  setspawn-delay-message: '&7Set spawn delay. 0 = no delay'
-  reload-config-message: '&7- Reload config.'
-  teleported-other-player: '&7%target% teleported to spawn.'
-  spawn-not-set: '&cSpawn has not yet been set.'
-  player-not-found: '&cPlayer not found.'
-  spawn-successfully-set: '&7Spawn successfully set.'
-  config-reloaded: '&7Config reloaded.'
-  console-use-command: '&cOnly players can run this command.'
-  teleport-delay: '&6Teleportation will start in &b%seconds% &6seconds. &cDo not move.'
-  player-move: '&cTeleportation canceled due to movement.'
-  void-fall: '&cYou have been teleported back to spawn!.'
-  currently-teleport-delay-message: '&7Currently teleport delay: &b%seconds% &7seconds.'
-  changed-teleport-delay-message: '&7Teleport delay changed to &b%seconds% &7seconds.'
-  only-number-message: '&cYou can only use numbers.'
 broadcast:
   player-join:
     enabled: true
-    message: '&6%nss_player_name% joined the server!'
   player-quit:
     enabled: true
-    message: '&6%nss_player_name% left the server!'
   first-join:
     enabled: true
-    message: '&6%nss_player_name% joined the server for the first time!'
 welcome-message:
   player-join:
     enabled: true
@@ -67,4 +39,4 @@ welcome-message:
     text:
       - '&6Welcome First Time, &7%nss_player_name%!'
       - '&6There are &7%nss_players_online% &6online!'
-config-version: '1.0'
+config-version: '1.3'

@@ -1,8 +1,8 @@
 package me.edulynch.nicesetspawn.commands;
 
-import me.edulynch.nicesetspawn.Main;
 import me.edulynch.nicesetspawn.Spawn;
-import me.edulynch.nicesetspawn.configs.ConfigUtil;
+import me.edulynch.nicesetspawn.utils.ConfigUtil;
+import me.edulynch.nicesetspawn.enumMessages.enumLang;
 import me.edulynch.nicesetspawn.interfaces.CommandTab;
 import me.edulynch.nicesetspawn.utils.Constants;
 import me.edulynch.nicesetspawn.utils.Utils;
@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class SetSpawnCMD implements CommandTab {
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (Utils.verifyIfIsAPlayer(sender)) return true;
@@ -31,11 +32,7 @@ public class SetSpawnCMD implements CommandTab {
 
             player.getWorld().setSpawnLocation(location);
 
-            String spawnSuccess = Main.getConfiguration().getString("messages.spawn-successfully-set");
-
-            if (spawnSuccess != null) {
-                player.sendMessage(Utils.color(spawnSuccess));
-            }
+            player.sendMessage(enumLang.MESSAGES_SPAWN_SUCCESSFULLY_SET.getConfigValue(new String[]{}));
 
         } else {
             sender.sendMessage(ConfigUtil.getNoPermission());

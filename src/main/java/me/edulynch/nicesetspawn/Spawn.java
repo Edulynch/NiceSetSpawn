@@ -1,9 +1,9 @@
 package me.edulynch.nicesetspawn;
 
+import me.edulynch.nicesetspawn.enumMessages.enumConfig;
+import me.edulynch.nicesetspawn.enumMessages.enumLang;
 import me.edulynch.nicesetspawn.utils.Utils;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -27,7 +27,7 @@ public class Spawn {
 
             Main.getInstance().saveConfig();
         } else {
-            Bukkit.getLogger().warning("ERROR: Trying get Spawn .");
+            Main.getInstance().getLogger().warning("ERROR: Trying get Spawn .");
         }
     }
 
@@ -61,7 +61,7 @@ public class Spawn {
             delay.put(player, new Delay(new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if (delay.get(player).getTime() >= Main.getConfiguration().getInt("teleport-delay-in-seconds")) {
+                    if (delay.get(player).getTime() >= enumConfig.TELEPORT_DELAY_IN_SECONDS.getConfigInteger()) {
 
                         delay.get(player).setTime(1);
 
@@ -80,13 +80,18 @@ public class Spawn {
 
                             cancel();
 
-                            player.sendMessage(Utils.color(Main.getConfiguration().getString("messages.player-move")));
+                            player.sendMessage(Utils.color(enumLang.MESSAGES_PLAYER_MOVE.getConfigValue(new String[]{})));
                         }
                     }
                 }
             }.runTaskTimer(Main.getInstance(), 20L, 20L), (int) location.getX(), (int) location.getY(), (int) location.getZ()));
 
-            player.sendMessage(Utils.color(Main.getConfiguration().getString("messages.teleport-delay")).replaceAll("%seconds%", Main.getConfiguration().getInt("teleport-delay-in-seconds") + ""));
+            if (enumLang.MESSAGES_TELEPORT_DELAY.getConfigValue(new String[]{}) != null) {
+                player.sendMessage(enumLang.MESSAGES_TELEPORT_DELAY.getConfigValue(new String[]{
+                        String.valueOf(Main.getConfiguration().getInt("teleport-delay-in-seconds", 0))
+                }));
+            }
+
         } else {
             Spawn.teleport(player);
         }
@@ -96,22 +101,24 @@ public class Spawn {
         Location location = getLocation();
 
         if (location == null) {
-            String spawnNotSet = Main.getConfiguration().getString("messages.spawn-not-set");
+            String spawnNotSet = enumLang.MESSAGES_SPAWN_NOT_SET.getConfigValue(new String[]{});
             player.sendMessage(Utils.color(spawnNotSet));
         } else {
             if (!location.getChunk().isLoaded()) {
                 location.getChunk().load();
             }
             player.teleport(location);
-            player.sendMessage(Utils.color(Main.getConfiguration().getString("spawn-command.message")));
+            if (enumConfig.SPAWN_COMMAND_MESSAGE_ENABLED.getConfigBoolean()) {
+                player.sendMessage(enumLang.SPAWN_COMMAND_MESSAGE.getConfigValue(new String[]{}));
+            }
         }
     }
 
     public static void removeDelay(Player p) {
         if (delay.containsKey(p)) {
-            if (delay.get(p).getTask().isSync())
+            if (delay.get(p).getTask().isSync()) {
                 delay.get(p).getTask().cancel();
-
+            }
             delay.remove(p);
         }
     }

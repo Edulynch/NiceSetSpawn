@@ -2,6 +2,8 @@ package me.edulynch.nicesetspawn.listeners;
 
 import me.edulynch.nicesetspawn.Main;
 import me.edulynch.nicesetspawn.Spawn;
+import me.edulynch.nicesetspawn.enumMessages.enumConfig;
+import me.edulynch.nicesetspawn.enumMessages.enumLang;
 import me.edulynch.nicesetspawn.utils.Constants;
 import me.edulynch.nicesetspawn.utils.Utils;
 import org.bukkit.Bukkit;
@@ -14,12 +16,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.List;
 
 public class PlayerJoin implements Listener {
-
-    private String broadcastJoinMessage;
-    private List<String> welcomeJoinText;
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
@@ -39,36 +37,45 @@ public class PlayerJoin implements Listener {
     }
 
     private void playerHealthAndFood(Player player) {
-        if (Main.getConfiguration().getBoolean("options.set-max-health-on-join")) {
+        if (enumConfig.OPTIONS_SET_MAX_HEALTH_ON_JOIN.getConfigBoolean()) {
             player.setHealth(20);
         }
 
-        if (Main.getConfiguration().getBoolean("options.set-max-food-level-on-join")) {
+        if (enumConfig.OPTIONS_SET_MAX_FOOD_LEVEL_ON_JOIN.getConfigBoolean()) {
             player.setFoodLevel(20);
         }
 
     }
 
     private void playerFly(Player player) {
-        player.setAllowFlight(Main.getConfiguration().getBoolean("options.set-fly-on-join"));
+        if (enumConfig.OPTIONS_SET_FLY_ON_JOIN_ENABLED.getConfigBoolean()) {
+            player.setAllowFlight(true);
+            if (enumLang.OPTIONS_SET_FLY_ON_JOIN_MESSAGE.getConfigValue(new String[]{}) != null) {
+                player.sendMessage(enumLang.OPTIONS_SET_FLY_ON_JOIN_MESSAGE.getConfigValue(new String[]{}));
+            }
+        } else {
+            player.setAllowFlight(false);
+        }
     }
 
     private void playerJoin(Player player, PlayerJoinEvent e) {
-        if (player.isOp() && Main.getConfiguration().getBoolean("check-version.enabled")) {
+        if (player.isOp() && enumConfig.CHECK_VERSION_ENABLED.getConfigBoolean()) {
             checkNewVersionAvailable(player);
         }
 
-        if (Main.getConfiguration().getBoolean("teleport-to-spawn-on.join")) {
+        if (enumConfig.TELEPORT_TO_SPAWN_ON_JOIN.getConfigBoolean()) {
             Spawn.spawn(player, true);
         }
-        if (Main.getConfiguration().getBoolean("broadcast.player-join.enabled")) {
-            broadcastJoinMessage = Main.getConfiguration().getString("broadcast.player-join.message");
-            Bukkit.broadcastMessage(Utils.colorPapi(broadcastJoinMessage, e.getPlayer()));
+        if (enumConfig.BROADCAST_PLAYER_JOIN_ENABLED.getConfigBoolean()) {
+            Bukkit.broadcastMessage(enumLang.BROADCAST_PLAYER_JOIN_MESSAGE.getConfigValue(new String[]{
+                    player.getName()
+            }));
         }
-        if (Main.getConfiguration().getBoolean("welcome-message.player-join.enabled")) {
+        if (enumConfig.WELCOME_MESSAGE_PLAYER_JOIN_ENABLED.getConfigBoolean()) {
             e.setJoinMessage(null);
-            welcomeJoinText = Main.getConfiguration().getStringList("welcome-message.player-join.text");
-            for (String message : welcomeJoinText) {
+            for (String message : enumConfig.WELCOME_MESSAGE_PLAYER_JOIN_TEXT.getConfigStringList(new String[]{
+                    player.getName()
+            })) {
                 player.sendMessage(Utils.colorPapi(message, e.getPlayer()));
             }
         }
@@ -77,7 +84,7 @@ public class PlayerJoin implements Listener {
     private void checkNewVersionAvailable(Player player) {
         try {
             boolean isNewVersionAvailable = false;
-            URL url = new URL("https://raw.githubusercontent.com/Edulynch/NiceSetSpawn/main/version.txt");
+            URL url = new URL(Constants.URL_GITHUBVERSIONTXT);
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             String inputLine;
             while ((inputLine = reader.readLine()) != null) {
@@ -88,35 +95,36 @@ public class PlayerJoin implements Listener {
             }
             reader.close();
             if (isNewVersionAvailable) {
-                player.sendMessage(Utils.color(Main.getConfiguration().getString("check-version.warning-message")));
-                Main.getInstance().getLogger().warning(Main.getConfiguration().getString("check-version.warning-message"));
+                player.sendMessage(enumLang.CHECK_VERSION_WARNING_MESSAGE.getConfigValue(new String[]{}));
+                Main.getInstance().getLogger().warning(enumLang.CHECK_VERSION_WARNING_MESSAGE.getConfigValue(new String[]{}));
             }
-            Main.getInstance().getLogger().severe(isNewVersionAvailable + "");
         } catch (Exception e) {
-            Main.getInstance().getLogger().severe(Main.getConfiguration().getString("check-version.error-message"));
+            Main.getInstance().getLogger().severe(enumLang.CHECK_VERSION_ERROR_MESSAGE.getConfigValue(new String[]{}));
         }
     }
 
     private void playerFirstJoin(Player player, PlayerJoinEvent e) {
-        if (Main.getConfiguration().getBoolean("teleport-to-spawn-on.first-join")) {
+        if (enumConfig.TELEPORT_TO_SPAWN_ON_FIRST_JOIN.getConfigBoolean()) {
             Spawn.spawn(player, true);
         }
-        if (Main.getConfiguration().getBoolean("broadcast.first-join.enabled")) {
-            broadcastJoinMessage = Main.getConfiguration().getString("broadcast.first-join.message");
-            Bukkit.broadcastMessage(Utils.colorPapi(broadcastJoinMessage, e.getPlayer()));
+        if (enumConfig.BROADCAST_FIRST_JOIN_ENABLED.getConfigBoolean()) {
+            Bukkit.broadcastMessage(enumLang.BROADCAST_FIRST_JOIN_MESSAGE.getConfigValue(new String[]{
+                    player.getName()
+            }));
         }
-        if (Main.getConfiguration().getBoolean("welcome-message.first-join.enabled")) {
+        if (enumConfig.WELCOME_MESSAGE_FIRST_JOIN_ENABLED.getConfigBoolean()) {
             e.setJoinMessage(null);
-            welcomeJoinText = Main.getConfiguration().getStringList("welcome-message.first-join.text");
-            for (String message : welcomeJoinText) {
+            for (String message : enumConfig.WELCOME_MESSAGE_FIRST_JOIN_TEXT.getConfigStringList(new String[]{
+                    player.getName()
+            })) {
                 player.sendMessage(Utils.colorPapi(message, e.getPlayer()));
             }
         }
     }
 
     private void playerGameMode(Player player) {
-        if (Main.getConfiguration().getBoolean("options.set-gamemode-on-join.enabled")) {
-            int gamemode = Main.getConfiguration().getInt("options.set-gamemode-on-join.gamemode");
+        if (enumConfig.OPTIONS_SET_GAMEMODE_ON_JOIN_ENABLED.getConfigBoolean()) {
+            int gamemode = enumConfig.OPTIONS_SET_GAMEMODE_ON_JOIN_GAMEMODE.getConfigInteger();
             switch (gamemode) {
                 case 0: {
                     player.setGameMode(GameMode.SURVIVAL);

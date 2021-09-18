@@ -1,6 +1,7 @@
 package me.edulynch.nicesetspawn.listeners;
 
 import me.edulynch.nicesetspawn.Main;
+import me.edulynch.nicesetspawn.enumMessages.enumConfig;
 import me.edulynch.nicesetspawn.utils.Constants;
 import me.edulynch.nicesetspawn.utils.Utils;
 import org.bukkit.entity.Arrow;
@@ -15,12 +16,14 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.HashMap;
 
 public class EntityDamageByEntity implements Listener {
-    private static HashMap<Player, BukkitTask> pvp = new HashMap<>();
+
+    private static final HashMap<Player, BukkitTask> pvp = new HashMap<>();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-        if (!((e.getEntity() instanceof Player) && Main.getConfiguration().getBoolean("disable-spawn-command-in-pvp.enabled")))
+        if (!((e.getEntity() instanceof Player) && enumConfig.DISABLE_SPAWN_COMMAND_IN_PVP_ENABLED.getConfigBoolean())) {
             return;
+        }
 
         final Player p = (Player) e.getEntity();
 
