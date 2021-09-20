@@ -1,8 +1,8 @@
-<h1 style="text-align: center;">
+<h1 align="center">
   <br>NiceSetSpawn<br>
 </h1>
 
-<p style="text-align: center;">
+<p align="center">
   <b>A Minecraft Plugin to set the global spawn with useful configuration with Support from <code>1.8</code> to <code>1.17.1</code></b><br><br>
   <a href="https://www.codacy.com/gh/Edulynch/NiceSetSpawn/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Edulynch/NiceSetSpawn&amp;utm_campaign=Badge_Grade">
       <img src="https://app.codacy.com/project/badge/Grade/9503545c58a54a7f9029ce0f8b8c1ec1" alt="codacy"/>
@@ -20,7 +20,8 @@
   <a href="https://bstats.org/plugin/bukkit/NiceSetSpawn/12777">Statistics</a> •
   <a href="https://www.spigotmc.org/resources/nicesetspawn.96240/">Download</a> •
   <a href="https://github.com/Edulynch/NiceSetSpawn/wiki">Wiki</a></p>
-<div style="text-align: center;"><h2>This Plugin Need <a href="https://www.spigotmc.org/resources/placeholderapi.6245/">PlaceholderAPI</a> to Work.</h2></div>
+  
+<h2 align="center">This Plugin Need <a href="https://www.spigotmc.org/resources/placeholderapi.6245/">PlaceholderAPI</a> to Work.</h2>
 
 ## Commands & Permissions
 
