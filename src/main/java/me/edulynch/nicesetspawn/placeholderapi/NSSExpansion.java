@@ -2,18 +2,12 @@ package me.edulynch.nicesetspawn.placeholderapi;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.edulynch.nicesetspawn.Main;
-import me.edulynch.nicesetspawn.utils.Constants;
+import me.edulynch.nicesetspawn.utils.PluginConstants;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class NSSExpansion extends PlaceholderExpansion {
-
-    private final Main plugin;
-
-    public NSSExpansion(Main plugin) {
-        this.plugin = plugin;
-    }
 
     @Override
     public @NotNull String getIdentifier() {
@@ -22,12 +16,12 @@ public class NSSExpansion extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getAuthor() {
-        return Constants.PLUGIN_AUTHOR;
+        return PluginConstants.PLUGIN_AUTHOR;
     }
 
     @Override
     public @NotNull String getVersion() {
-        return Constants.PLUGIN_VERSION;
+        return PluginConstants.PLUGIN_VERSION;
     }
 
     @Override
@@ -41,19 +35,23 @@ public class NSSExpansion extends PlaceholderExpansion {
         }
 
         /*
-        Check if the player is online,
-        You should do this before doing anything regarding players
-         */
-        if (player == null) {
-            return "";
-        }
-
-        /*
         %nss_player_name%
         Returns the player name
          */
         if (identifier.equalsIgnoreCase("player_name")) {
             return player.getName();
+        }
+
+        /*
+        %nss_spawn_delay%
+        Returns the spawn delay
+         */
+        if (identifier.equalsIgnoreCase("spawn_delay")) {
+            try {
+                return String.valueOf(Main.getConfiguration().getInt("teleport-delay-in-seconds"));
+            } catch (Exception e) {
+                return "0";
+            }
         }
 
         return null;

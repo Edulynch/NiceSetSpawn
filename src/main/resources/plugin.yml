@@ -30,6 +30,7 @@ commands:
        - /nss info - Show NiceSetSpawn Information
        - /nss reload - Reload NiceSetSpawn configs
        - /nss setdelay [seconds] - Set delay in seconds
+       - /nss showeffects - show Spawn Effect on Spawn Location.
 
 permissions:
   nicesetspawn.help:
@@ -49,6 +50,9 @@ permissions:
     default: op
   nicesetspawn.setdelay:
     description: Allows you to use the command /nss setdelay
+    default: op
+  nicesetspawn.showeffects:
+    description: Allows you to use the command /nss showeffects
     default: op
   nicesetspawn.teleportothers:
     description: Allows you to teleport other players to spawn /spawn [player]
@@ -74,6 +78,7 @@ permissions:
       nicesetspawn.spawn: true
       nicesetspawn.reload: true
       nicesetspawn.setdelay: true
+      nicesetspawn.showeffects: true
       nicesetspawn.teleportothers: true
       nicesetspawn.bypassdelay: true
       nicesetspawn.bypasspvp: true

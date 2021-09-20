@@ -1,9 +1,11 @@
 package me.edulynch.nicesetspawn.listeners;
 
+import me.edulynch.nicesetspawn.config.EnumConfig;
 import me.edulynch.nicesetspawn.Main;
-import me.edulynch.nicesetspawn.utils.Constants;
-import me.edulynch.nicesetspawn.utils.Utils;
+import me.edulynch.nicesetspawn.utils.PluginConstants;
+import me.edulynch.nicesetspawn.utils.MethodsUtils;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,12 +17,23 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.HashMap;
 
 public class EntityDamageByEntity implements Listener {
-    private static HashMap<Player, BukkitTask> pvp = new HashMap<>();
+
+    private static final HashMap<Player, BukkitTask> pvp = new HashMap<>();
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
-        if (!((e.getEntity() instanceof Player) && Main.getConfiguration().getBoolean("disable-spawn-command-in-pvp.enabled")))
+
+        // Disable Firework Spawn Damage
+        if (e.getDamager() instanceof Firework) {
+            Firework fw = (Firework) e.getDamager();
+            if (fw.hasMetadata("nodamage")) {
+                e.setCancelled(true);
+            }
+        }
+
+        if (!((e.getEntity() instanceof Player) && EnumConfig.DISABLE_SPAWN_COMMAND_IN_PVP_ENABLED.getConfigBoolean())) {
             return;
+        }
 
         final Player p = (Player) e.getEntity();
 
@@ -34,7 +47,7 @@ public class EntityDamageByEntity implements Listener {
     }
 
     public static boolean containsKey(Player p) {
-        if (!Utils.hasPermission(p, Constants.PERMISSION_BYPASSPVP)) {
+        if (!MethodsUtils.hasPermission(p, PluginConstants.PERMISSION_BYPASSPVP)) {
             return pvp.containsKey(p);
         } else {
             return false;
@@ -43,13 +56,15 @@ public class EntityDamageByEntity implements Listener {
 
     public static void remove(Player p) {
         if (pvp.containsKey(p)) {
-            if (pvp.get(p).isSync())
+            if (pvp.get(p).isSync()) {
                 pvp.get(p).cancel();
+            }
 
             pvp.remove(p);
         }
     }
 
+    @SuppressWarnings("all")
     private void pvp(final Player p) {
         if (pvp.containsKey(p)) {
             if (pvp.get(p).isSync()) {
@@ -61,11 +76,12 @@ public class EntityDamageByEntity implements Listener {
 
             @Override
             public void run() {
-                if (pvp.containsKey(p))
+                if (pvp.containsKey(p)) {
                     pvp.remove(p);
+                }
             }
 
-        }.runTaskLater(Main.getInstance(), 8 * 20L));
+        }.runTaskLater(Main.getInstance(), EnumConfig.DISABLE_SPAWN_COMMAND_IN_PVP_SECONDS.getConfigInteger() * 20L));
     }
 
 }
