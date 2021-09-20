@@ -1,9 +1,9 @@
-package me.edulynch.nicesetspawn;
+package me.edulynch.nicesetspawn.models;
 
 import org.bukkit.scheduler.BukkitTask;
 
+@SuppressWarnings("all")
 public class Delay {
-
     private BukkitTask task;
     private int time;
     private int startX;

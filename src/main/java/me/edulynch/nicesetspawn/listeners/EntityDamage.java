@@ -1,8 +1,8 @@
 package me.edulynch.nicesetspawn.listeners;
 
-import me.edulynch.nicesetspawn.Spawn;
-import me.edulynch.nicesetspawn.enumMessages.enumConfig;
-import me.edulynch.nicesetspawn.enumMessages.enumLang;
+import me.edulynch.nicesetspawn.Config.enumConfig;
+import me.edulynch.nicesetspawn.Config.enumLang;
+import me.edulynch.nicesetspawn.helpers.Spawn;
 import me.edulynch.nicesetspawn.utils.Utils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -17,7 +17,6 @@ public class EntityDamage implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     private void onEntityDamage(EntityDamageEvent event) {
 
-
         Entity entity = event.getEntity();
 
         if (entity instanceof Player) {
@@ -28,8 +27,8 @@ public class EntityDamage implements Listener {
                 event.setCancelled(true);
                 player.setFallDistance(0);
                 Spawn.spawn(player, true);
-                player.sendMessage(Utils.colorPapi(enumLang.MESSAGES_VOID_FALL.getConfigValue(new String[]{}), player));
-            } else if (event.getCause() == EntityDamageEvent.DamageCause.FALL && enumConfig.OPTIONS_DISABLE_FALL_DAMAGE.getBoolean()) {
+                player.sendMessage(Utils.color(player, enumLang.MESSAGES_VOID_FALL.getConfigValue(player)));
+            } else if (event.getCause() == EntityDamageEvent.DamageCause.FALL && enumConfig.OPTIONS_DISABLE_FALL_DAMAGE.getConfigBoolean()) {
                 event.setCancelled(true);
                 player.setFallDistance(0);
             } else {
@@ -42,7 +41,7 @@ public class EntityDamage implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onHungerDeplete(FoodLevelChangeEvent e) {
-        if (e.getEntity() instanceof Player && enumConfig.OPTIONS_DISABLE_HUNGER_DEPLETE.getBoolean()) {
+        if (e.getEntity() instanceof Player && enumConfig.OPTIONS_DISABLE_HUNGER_DEPLETE.getConfigBoolean()) {
             e.setCancelled(true);
             e.setFoodLevel(20);
         } else {

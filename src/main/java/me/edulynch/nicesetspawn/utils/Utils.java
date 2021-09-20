@@ -1,6 +1,7 @@
 package me.edulynch.nicesetspawn.utils;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.edulynch.nicesetspawn.Config.enumLang;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -9,37 +10,44 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Utils {
 
     public static TextComponent textComponent;
 
-    public static String color(String message) {
-        return ChatColor.translateAlternateColorCodes('&', message);
-    }
-
-    public static List<String> color(List<String> messageList) {
-        List<String> stringList = new ArrayList<>();
-        for (String message : messageList) {
-            stringList.add(ChatColor.translateAlternateColorCodes('&', message));
-        }
-        return stringList;
-    }
-
-    public static String colorPapi(String message, Player player) {
-        String preMessage = ChatColor.translateAlternateColorCodes('&', message);
-        return PlaceholderAPI.setPlaceholders(player, preMessage);
-    }
-
-    public static boolean verifyIfIsAPlayer(CommandSender sender) {
-        if (!(sender instanceof Player)) {
-            sender.sendMessage(ConfigUtil.getConsoleUseCommand());
-            return true;
+    public static String color(CommandSender sender, String message) {
+        if (sender != null) {
+            if (verifyIfIsConsoleColor(sender)) {
+                return ChatColor.translateAlternateColorCodes('&', message);
+            } else {
+                Player player = (Player) sender;
+                return ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(player, message));
+            }
         } else {
-            return false;
+            return ChatColor.translateAlternateColorCodes('&', message);
         }
+    }
+
+    public static String color(Player player, String message) {
+        if (player != null) {
+            return ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(player, message));
+        } else {
+            return ChatColor.translateAlternateColorCodes('&', message);
+        }
+    }
+
+    public static boolean verifyIfIsConsole(CommandSender sender) {
+        if (sender instanceof Player) {
+            return false;
+        } else {
+            String onlyPlayer = enumLang.MESSAGES_CONSOLE_USE_COMMAND.getConfigValue(sender);
+            String onlyPlayerColor = onlyPlayer.replaceAll("&", "§");
+            sender.sendMessage(onlyPlayerColor);
+            return true;
+        }
+    }
+
+    public static boolean verifyIfIsConsoleColor(CommandSender sender) {
+        return !(sender instanceof Player);
     }
 
     public static boolean hasPermission(Player player, String permission) {

@@ -1,10 +1,11 @@
 package me.edulynch.nicesetspawn.listeners;
 
+import me.edulynch.nicesetspawn.Config.enumConfig;
 import me.edulynch.nicesetspawn.Main;
-import me.edulynch.nicesetspawn.enumMessages.enumConfig;
 import me.edulynch.nicesetspawn.utils.Constants;
 import me.edulynch.nicesetspawn.utils.Utils;
 import org.bukkit.entity.Arrow;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -21,6 +22,15 @@ public class EntityDamageByEntity implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
+
+        // Disable Firework Spawn Damage
+        if (e.getDamager() instanceof Firework) {
+            Firework fw = (Firework) e.getDamager();
+            if (fw.hasMetadata("nodamage")) {
+                e.setCancelled(true);
+            }
+        }
+
         if (!((e.getEntity() instanceof Player) && enumConfig.DISABLE_SPAWN_COMMAND_IN_PVP_ENABLED.getConfigBoolean())) {
             return;
         }
@@ -46,13 +56,15 @@ public class EntityDamageByEntity implements Listener {
 
     public static void remove(Player p) {
         if (pvp.containsKey(p)) {
-            if (pvp.get(p).isSync())
+            if (pvp.get(p).isSync()) {
                 pvp.get(p).cancel();
+            }
 
             pvp.remove(p);
         }
     }
 
+    @SuppressWarnings("all")
     private void pvp(final Player p) {
         if (pvp.containsKey(p)) {
             if (pvp.get(p).isSync()) {
@@ -64,11 +76,12 @@ public class EntityDamageByEntity implements Listener {
 
             @Override
             public void run() {
-                if (pvp.containsKey(p))
+                if (pvp.containsKey(p)) {
                     pvp.remove(p);
+                }
             }
 
-        }.runTaskLater(Main.getInstance(), 8 * 20L));
+        }.runTaskLater(Main.getInstance(), enumConfig.DISABLE_SPAWN_COMMAND_IN_PVP_SECONDS.getConfigInteger() * 20L));
     }
 
 }

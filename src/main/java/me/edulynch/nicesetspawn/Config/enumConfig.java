@@ -1,14 +1,20 @@
-package me.edulynch.nicesetspawn.enumMessages;
+package me.edulynch.nicesetspawn.Config;
 
 import me.edulynch.nicesetspawn.utils.Constants;
 import me.edulynch.nicesetspawn.utils.Utils;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public enum enumConfig {
+    /**
+     * bstats-metrics
+     */
+    BSTATS_METRICS("bstats-metrics", true, Boolean.class),
     /**
      * translate-messages
      */
@@ -32,7 +38,7 @@ public enum enumConfig {
     /**
      * teleport-delay-in-seconds
      */
-    TELEPORT_DELAY_IN_SECONDS("teleport-delay-in-seconds", 0, Integer.class),
+    TELEPORT_DELAY_IN_SECONDS("teleport-delay-in-seconds", 5, Integer.class),
     /**
      * check-version.enabled
      */
@@ -41,6 +47,10 @@ public enum enumConfig {
      * disable-spawn-command-in-pvp.enabled
      */
     DISABLE_SPAWN_COMMAND_IN_PVP_ENABLED("disable-spawn-command-in-pvp.enabled", true, Boolean.class),
+    /**
+     * disable-spawn-command-in-pvp.seconds
+     */
+    DISABLE_SPAWN_COMMAND_IN_PVP_SECONDS("disable-spawn-command-in-pvp.seconds", 8, Integer.class),
     /**
      * options.set-gamemode-on-join.enabled
      */
@@ -68,7 +78,7 @@ public enum enumConfig {
     /**
      * spawn-command.need-permission
      */
-    SPAWN_COMMAND_NEED_PERMISSION("spawn-command.need-permission", true, Boolean.class),
+    SPAWN_COMMAND_NEED_PERMISSION("spawn-command.need-permission", false, Boolean.class),
     /**
      * broadcast.player-join.enabled
      */
@@ -89,7 +99,7 @@ public enum enumConfig {
      * welcome-message.player-join.text
      */
     WELCOME_MESSAGE_PLAYER_JOIN_TEXT("welcome-message.player-join.text",
-            new ArrayList<>(Arrays.asList("&6Welcome, {0}", "&6Enjoy the Server!")),
+            new ArrayList<>(Arrays.asList("&6Welcome, %nss_player_name%", "&6Enjoy the Server!")),
             List.class),
 
     /**
@@ -101,7 +111,7 @@ public enum enumConfig {
      * welcome-message.first-join.text
      */
     WELCOME_MESSAGE_FIRST_JOIN_TEXT("welcome-message.first-join.text",
-            new ArrayList<>(Arrays.asList("&6Welcome for the first time, {0}!", "&6Enjoy the Server!")),
+            new ArrayList<>(Arrays.asList("&6Welcome for the first time, %nss_player_name%!", "&6Enjoy the Server!")),
             List.class),
     /**
      * config-version
@@ -116,13 +126,29 @@ public enum enumConfig {
      */
     OPTIONS_DISABLE_HUNGER_DEPLETE("options.disable-fall-damage", true, Boolean.class),
     /**
-     * options.spawn-particle.enabled
+     * options.spawn.particle.enabled
      */
-    OPTIONS_SPAWN_PARTICLE_ENABLED("options.spawn-particle.enabled", true, Boolean.class),
+    OPTIONS_SPAWN_PARTICLE_ENABLED("options.spawn.particle.enabled", true, Boolean.class),
     /**
-     * options.spawn-particle.effect
+     * options.spawn.particle.name
      */
-    OPTIONS_SPAWN_PARTICLE_EFFECT("options.spawn-particle.effect", true, String.class),
+    OPTIONS_SPAWN_PARTICLE_NAME("options.spawn.particle.name", "FLAME", String.class),
+    /**
+     * options.spawn.fireworks.enabled
+     */
+    OPTIONS_SPAWN_FIREWORKS_ENABLED("options.spawn.fireworks.enabled", true, Boolean.class),
+    /**
+     * options.spawn.fireworks.amount
+     */
+    OPTIONS_SPAWN_FIREWORKS_AMOUNT("options.spawn.fireworks.amount", 5, Integer.class),
+    /**
+     * options.spawn.sound.enabled
+     */
+    OPTIONS_SPAWN_SOUND_ENABLED("options.spawn.sound.enabled", true, Boolean.class),
+    /**
+     * options.spawn.sound.name
+     */
+    OPTIONS_SPAWN_SOUND_NAME("options.spawn.sound.name", "ENTITY_GHAST_SCREAM", String.class),
     ;
 
     private final String path;
@@ -181,42 +207,40 @@ public enum enumConfig {
         return this.valueType;
     }
 
-    public String getConfigString(final String[] args) {
-        String value = Utils.color(CONFIG.getString(this.path, this.string));
-
-        if (args != null) {
-            if (args.length == 0) {
-                return value;
-            }
-            for (int i = 0; i < args.length; i++) {
-                value = value.replace("{" + i + "}", args[i]);
-            }
-        }
-
-        return value;
-    }
-
-    public List<String> getConfigStringList(final String[] args) {
+    @SuppressWarnings({"Duplicates", "unused"})
+    public List<String> getConfigStringList(CommandSender sender) {
         List<String> valueList = CONFIG.getStringList(this.path);
         List<String> tempList = new ArrayList<>();
 
-        if (args != null) {
-            if (args.length == 0) {
-                return valueList;
-            }
-            for (String value : valueList) {
-                for (int i = 0; i < args.length; i++) {
-                    value = value.replace("{" + i + "}", args[i]);
-                    tempList.add(value);
-                }
-            }
+        for (String value : valueList) {
+            value = Utils.color(sender, value);
+            tempList.add(value);
         }
 
         return tempList;
     }
 
-    public String getConfigString() {
-        return CONFIG.getString(this.path, this.string);
+    @SuppressWarnings({"Duplicates", "unused"})
+    public List<String> getConfigStringList(Player player) {
+        List<String> valueList = CONFIG.getStringList(this.path);
+        List<String> tempList = new ArrayList<>();
+
+        for (String value : valueList) {
+            value = Utils.color(player, value);
+            tempList.add(value);
+        }
+
+        return tempList;
+    }
+
+    @SuppressWarnings("unused")
+    public String getConfigString(CommandSender sender) {
+        return Utils.color(sender, CONFIG.getString(this.path, this.string));
+    }
+
+    @SuppressWarnings({"unused"})
+    public String getConfigString(Player player) {
+        return Utils.color(player, CONFIG.getString(this.path, this.string));
     }
 
     public boolean getConfigBoolean() {

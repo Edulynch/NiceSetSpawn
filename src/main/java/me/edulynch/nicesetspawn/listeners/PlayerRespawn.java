@@ -1,7 +1,7 @@
 package me.edulynch.nicesetspawn.listeners;
 
-import me.edulynch.nicesetspawn.Spawn;
-import me.edulynch.nicesetspawn.enumMessages.enumConfig;
+import me.edulynch.nicesetspawn.Config.enumConfig;
+import me.edulynch.nicesetspawn.helpers.Spawn;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

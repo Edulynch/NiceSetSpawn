@@ -1,15 +1,15 @@
 package me.edulynch.nicesetspawn;
 
+import me.edulynch.nicesetspawn.Config.enumConfig;
+import me.edulynch.nicesetspawn.Config.enumLang;
 import me.edulynch.nicesetspawn.commands.NiceSetSpawnCMD;
 import me.edulynch.nicesetspawn.commands.SetSpawnCMD;
 import me.edulynch.nicesetspawn.commands.SpawnCMD;
-import me.edulynch.nicesetspawn.enumMessages.enumConfig;
-import me.edulynch.nicesetspawn.enumMessages.enumLang;
 import me.edulynch.nicesetspawn.helpers.ConfigWrapper;
 import me.edulynch.nicesetspawn.listeners.*;
+import me.edulynch.nicesetspawn.placeholderapi.NSSExpansion;
 import me.edulynch.nicesetspawn.utils.Constants;
 import org.bstats.bukkit.Metrics;
-import org.bstats.charts.SingleLineChart;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.PluginCommand;
@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 public final class Main extends JavaPlugin {
 
+    @SuppressWarnings("FieldCanBeLocal")
     private ConfigWrapper langWrapper, configWrapper;
 
     private static Main instance;
@@ -36,16 +37,30 @@ public final class Main extends JavaPlugin {
         loadConfig();
         loadMessagesLang();
 
+        enableLibraries();
+
         registerListeners();
         registerCommands();
-        registerMetrics();
+
+        if (enumConfig.BSTATS_METRICS.getConfigBoolean()) {
+            registerMetrics();
+        }
 
     }
 
+    private void enableLibraries() {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new NSSExpansion(this).register();
+        } else {
+            getLogger().warning("Could not find PlaceholderAPI! This plugin is required.");
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
+    }
+
+    @SuppressWarnings("unused")
     private void registerMetrics() {
         int pluginId = 12777;
         Metrics metrics = new Metrics(this, pluginId);
-        metrics.addCustomChart(new SingleLineChart("players", () -> Bukkit.getOnlinePlayers().size()));
     }
 
     private void registerListeners() {
@@ -91,11 +106,19 @@ public final class Main extends JavaPlugin {
 
         configWrapper.getConfig().options().copyDefaults(true);
         configWrapper.saveConfig();
+
+        String version = enumConfig.CONFIG_VERSION.getConfigString(null);
+        if (!version.equalsIgnoreCase(Constants.PLUGIN_VERSION)) {
+            configWrapper.checkVersion();
+            configWrapper.convertOldConfig();
+            loadConfig();
+        }
+
     }
 
     private void loadMessagesLang() {
         // Load messages.yml
-        langWrapper = new ConfigWrapper(this, File.separator + "Languages", "messages-" + enumConfig.TRANSLATE_MESSAGES.getConfigString() + ".yml");
+        langWrapper = new ConfigWrapper(this, File.separator + "Languages", "messages-" + enumConfig.TRANSLATE_MESSAGES.getConfigString(null) + ".yml");
         langWrapper.createNewFile("Loading NiceSetSpawn messages.yml", "NiceSetSpawn Messages file");
 
         enumLang.setFile(langWrapper.getConfig());
@@ -141,13 +164,11 @@ public final class Main extends JavaPlugin {
     }
 
     public void reloadConfigLang() {
-        langWrapper.reloadConfig();
-        enumLang.setFile(langWrapper.getConfig());
+        loadMessagesLang();
     }
 
     public void reloadConfigFile() {
-        configWrapper.reloadConfig();
-        enumConfig.setFile(configWrapper.getConfig());
+        loadConfig();
     }
 
     public static Main getInstance() {

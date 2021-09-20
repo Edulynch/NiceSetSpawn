@@ -1,9 +1,13 @@
-package me.edulynch.nicesetspawn;
+package me.edulynch.nicesetspawn.helpers;
 
-import me.edulynch.nicesetspawn.enumMessages.enumConfig;
-import me.edulynch.nicesetspawn.enumMessages.enumLang;
+import me.edulynch.nicesetspawn.Config.enumConfig;
+import me.edulynch.nicesetspawn.Config.enumLang;
+import me.edulynch.nicesetspawn.Main;
+import me.edulynch.nicesetspawn.models.Delay;
 import me.edulynch.nicesetspawn.utils.Utils;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -80,17 +84,13 @@ public class Spawn {
 
                             cancel();
 
-                            player.sendMessage(Utils.color(enumLang.MESSAGES_PLAYER_MOVE.getConfigValue(new String[]{})));
+                            player.sendMessage(Utils.color(player, enumLang.MESSAGES_PLAYER_MOVE.getConfigValue(player)));
                         }
                     }
                 }
             }.runTaskTimer(Main.getInstance(), 20L, 20L), (int) location.getX(), (int) location.getY(), (int) location.getZ()));
 
-            if (enumLang.MESSAGES_TELEPORT_DELAY.getConfigValue(new String[]{}) != null) {
-                player.sendMessage(enumLang.MESSAGES_TELEPORT_DELAY.getConfigValue(new String[]{
-                        String.valueOf(Main.getConfiguration().getInt("teleport-delay-in-seconds", 0))
-                }));
-            }
+            player.sendMessage(enumLang.MESSAGES_TELEPORT_DELAY.getConfigValue(player));
 
         } else {
             Spawn.teleport(player);
@@ -101,15 +101,16 @@ public class Spawn {
         Location location = getLocation();
 
         if (location == null) {
-            String spawnNotSet = enumLang.MESSAGES_SPAWN_NOT_SET.getConfigValue(new String[]{});
-            player.sendMessage(Utils.color(spawnNotSet));
+            String spawnNotSet = enumLang.MESSAGES_SPAWN_NOT_SET.getConfigValue(player);
+            player.sendMessage(Utils.color(player, spawnNotSet));
         } else {
             if (!location.getChunk().isLoaded()) {
                 location.getChunk().load();
             }
             player.teleport(location);
+            SpawnEffect.register(location);
             if (enumConfig.SPAWN_COMMAND_MESSAGE_ENABLED.getConfigBoolean()) {
-                player.sendMessage(enumLang.SPAWN_COMMAND_MESSAGE.getConfigValue(new String[]{}));
+                player.sendMessage(enumLang.SPAWN_COMMAND_MESSAGE.getConfigValue(player));
             }
         }
     }

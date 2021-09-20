@@ -39,4 +39,4 @@ welcome-message:
     text:
       - '&6Welcome First Time, &7%nss_player_name%!'
       - '&6There are &7%nss_players_online% &6online!'
-config-version: '1.3'
+config-version: '1.4'

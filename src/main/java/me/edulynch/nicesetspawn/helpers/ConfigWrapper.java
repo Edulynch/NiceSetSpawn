@@ -63,4 +63,53 @@ public class ConfigWrapper {
                     "Could not save config to " + configFile, ex);
         }
     }
+
+    // CHECK VERSION
+
+    public void checkVersion() {
+        if (plugin.getDataFolder().exists() && configFile.exists()) {
+            File file1 = configFile;
+            File file2 = new File(plugin.getDataFolder() + folderName, "old" + fileName);
+
+            if (file2.exists()) {
+                boolean deletedSuccess = file2.delete();
+                if (deletedSuccess) {
+                    plugin.getLogger().warning("DELETED FILE: " + file2.getName());
+                } else {
+                    plugin.getLogger().severe("ERROR DELETING FILE: " + file2.getName());
+                }
+            }
+
+            boolean renamedSuccess = file1.renameTo(file2);
+            if (renamedSuccess) {
+                plugin.getLogger().warning("SUCCESSFUL RENAMING FILE: " + file2.getName());
+            } else {
+                plugin.getLogger().severe("ERROR RENAMING FILE: " + file1.getName());
+            }
+
+        }
+
+        plugin.getLogger().warning("PLEASE CONSIDER MODIFYING THE NEW CONFIG.");
+
+    }
+
+    public void convertOldConfig() {
+        File file = new File(plugin.getDataFolder() + folderName, "old" + fileName);
+
+        if (plugin.getDataFolder().exists() && file.exists() && (plugin.getConfig().getString("spawn.world") == null)) {
+            YamlConfiguration oldconfig = YamlConfiguration.loadConfiguration(file);
+
+            if (oldconfig.getString("spawn.world") != null) {
+                plugin.getConfig().set("spawn.world", oldconfig.getString("spawn.world"));
+                plugin.getConfig().set("spawn.x", oldconfig.getDouble("spawn.x"));
+                plugin.getConfig().set("spawn.y", oldconfig.getDouble("spawn.y"));
+                plugin.getConfig().set("spawn.z", oldconfig.getDouble("spawn.z"));
+                plugin.getConfig().set("spawn.yaw", (float) oldconfig.getDouble("spawn.yaw"));
+                plugin.getConfig().set("spawn.pitch", (float) oldconfig.getDouble("spawn.pitch"));
+
+                plugin.saveConfig();
+            }
+        }
+    }
+
 }

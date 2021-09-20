@@ -6,19 +6,23 @@
 
     <groupId>me.edulynch.nicesetspawn</groupId>
     <artifactId>NiceSetSpawn</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>NiceSetSpawn</name>
 
     <description>A Minecraft Plugin to set the global spawn with useful configuration and translatable.</description>
     <properties>
-        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
     <url>https://github.com/Edulynch/NiceSetSpawn</url>
 
     <build>
+
+        <defaultGoal>clean package</defaultGoal>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -68,6 +72,7 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
+
     </build>
 
     <repositories>
@@ -103,6 +108,11 @@
             <artifactId>placeholderapi</artifactId>
             <version>2.10.10</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>xyz.xenondevs</groupId>
+            <artifactId>particle</artifactId>
+            <version>1.6.5</version>
         </dependency>
     </dependencies>
 </project>

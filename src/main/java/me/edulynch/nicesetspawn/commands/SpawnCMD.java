@@ -1,9 +1,8 @@
 package me.edulynch.nicesetspawn.commands;
 
-import me.edulynch.nicesetspawn.Spawn;
-import me.edulynch.nicesetspawn.utils.ConfigUtil;
-import me.edulynch.nicesetspawn.enumMessages.enumConfig;
-import me.edulynch.nicesetspawn.enumMessages.enumLang;
+import me.edulynch.nicesetspawn.Config.enumConfig;
+import me.edulynch.nicesetspawn.Config.enumLang;
+import me.edulynch.nicesetspawn.helpers.Spawn;
 import me.edulynch.nicesetspawn.interfaces.CommandTab;
 import me.edulynch.nicesetspawn.listeners.EntityDamageByEntity;
 import me.edulynch.nicesetspawn.utils.Constants;
@@ -23,15 +22,17 @@ public class SpawnCMD implements CommandTab {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        if (Utils.verifyIfIsAPlayer(sender)) return true;
+        if (Utils.verifyIfIsConsole(sender)) return true;
 
         Player player = (Player) sender;
 
         if (args.length == 0) {
 
-            if (EntityDamageByEntity.containsKey(player) && enumConfig.DISABLE_SPAWN_COMMAND_IN_PVP_ENABLED.getConfigBoolean()) {
+            if (EntityDamageByEntity.containsKey(player)
+                    && enumConfig.DISABLE_SPAWN_COMMAND_IN_PVP_ENABLED.getConfigBoolean()
+                    && enumConfig.DISABLE_SPAWN_COMMAND_IN_PVP_SECONDS.getConfigInteger() > 0) {
 
-                sender.sendMessage(enumLang.DISABLE_SPAWN_COMMAND_IN_PVP_MESSAGE.getConfigValue(new String[]{}));
+                sender.sendMessage(enumLang.DISABLE_SPAWN_COMMAND_IN_PVP_MESSAGE.getConfigValue(player));
 
             } else {
                 if (!Utils.hasPermission(player, Constants.PERMISSION_BYPASSDELAY)) {
@@ -39,7 +40,7 @@ public class SpawnCMD implements CommandTab {
                         if (Utils.hasPermission(player, Constants.PERMISSION_SPAWN)) {
                             Spawn.spawn(player, false);
                         } else {
-                            sender.sendMessage(ConfigUtil.getNoPermission());
+                            sender.sendMessage(enumLang.MESSAGES_NO_PERMISSION.getConfigValue(sender));
                         }
                     } else {
                         Spawn.spawn(player, false);
@@ -59,19 +60,14 @@ public class SpawnCMD implements CommandTab {
                     EntityDamageByEntity.remove(target);
                     Spawn.removeDelay(target);
                     Spawn.spawn(target, true);
-                    String messageTeleportToPlayer = enumLang.MESSAGES_TELEPORTED_OTHER_PLAYER.getConfigValue(new String[]{});
-                    if (messageTeleportToPlayer != null) {
-                        player.sendMessage(enumLang.MESSAGES_TELEPORTED_OTHER_PLAYER.getConfigValue(new String[]{
-                                target.getName()
-                        }));
-                    } else {
-                        sender.sendMessage(ConfigUtil.getPlayerNotFound());
-                    }
+
+                    player.sendMessage(enumLang.MESSAGES_TELEPORTED_OTHER_PLAYER.getConfigValue(player));
+
                 } else {
-                    sender.sendMessage(ConfigUtil.getPlayerNotFound());
+                    sender.sendMessage(enumLang.MESSAGES_PLAYER_NOT_FOUND.getConfigValue(sender));
                 }
             } else {
-                sender.sendMessage(ConfigUtil.getNoPermission());
+                sender.sendMessage(enumLang.MESSAGES_NO_PERMISSION.getConfigValue(sender));
             }
 
         }

@@ -1,9 +1,9 @@
 package me.edulynch.nicesetspawn.listeners;
 
+import me.edulynch.nicesetspawn.Config.enumConfig;
+import me.edulynch.nicesetspawn.Config.enumLang;
 import me.edulynch.nicesetspawn.Main;
-import me.edulynch.nicesetspawn.Spawn;
-import me.edulynch.nicesetspawn.enumMessages.enumConfig;
-import me.edulynch.nicesetspawn.enumMessages.enumLang;
+import me.edulynch.nicesetspawn.helpers.Spawn;
 import me.edulynch.nicesetspawn.utils.Constants;
 import me.edulynch.nicesetspawn.utils.Utils;
 import org.bukkit.Bukkit;
@@ -50,9 +50,7 @@ public class PlayerJoin implements Listener {
     private void playerFly(Player player) {
         if (enumConfig.OPTIONS_SET_FLY_ON_JOIN_ENABLED.getConfigBoolean()) {
             player.setAllowFlight(true);
-            if (enumLang.OPTIONS_SET_FLY_ON_JOIN_MESSAGE.getConfigValue(new String[]{}) != null) {
-                player.sendMessage(enumLang.OPTIONS_SET_FLY_ON_JOIN_MESSAGE.getConfigValue(new String[]{}));
-            }
+            player.sendMessage(enumLang.OPTIONS_SET_FLY_ON_JOIN_MESSAGE.getConfigValue(player));
         } else {
             player.setAllowFlight(false);
         }
@@ -67,22 +65,19 @@ public class PlayerJoin implements Listener {
             Spawn.spawn(player, true);
         }
         if (enumConfig.BROADCAST_PLAYER_JOIN_ENABLED.getConfigBoolean()) {
-            Bukkit.broadcastMessage(enumLang.BROADCAST_PLAYER_JOIN_MESSAGE.getConfigValue(new String[]{
-                    player.getName()
-            }));
+            Bukkit.broadcastMessage(enumLang.BROADCAST_PLAYER_JOIN_MESSAGE.getConfigValue(player));
         }
         if (enumConfig.WELCOME_MESSAGE_PLAYER_JOIN_ENABLED.getConfigBoolean()) {
             e.setJoinMessage(null);
-            for (String message : enumConfig.WELCOME_MESSAGE_PLAYER_JOIN_TEXT.getConfigStringList(new String[]{
-                    player.getName()
-            })) {
-                player.sendMessage(Utils.colorPapi(message, e.getPlayer()));
+            for (String message : enumConfig.WELCOME_MESSAGE_PLAYER_JOIN_TEXT.getConfigStringList(player)) {
+                player.sendMessage(Utils.color(player, message));
             }
         }
     }
 
     private void checkNewVersionAvailable(Player player) {
         try {
+            String newVersion = "";
             boolean isNewVersionAvailable = false;
             URL url = new URL(Constants.URL_GITHUBVERSIONTXT);
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -90,16 +85,17 @@ public class PlayerJoin implements Listener {
             while ((inputLine = reader.readLine()) != null) {
                 if (!inputLine.equalsIgnoreCase(Constants.PLUGIN_VERSION)) {
                     isNewVersionAvailable = true;
+                    newVersion = inputLine;
                     break;
                 }
             }
             reader.close();
             if (isNewVersionAvailable) {
-                player.sendMessage(enumLang.CHECK_VERSION_WARNING_MESSAGE.getConfigValue(new String[]{}));
-                Main.getInstance().getLogger().warning(enumLang.CHECK_VERSION_WARNING_MESSAGE.getConfigValue(new String[]{}));
+                player.sendMessage(enumLang.CHECK_VERSION_WARNING_MESSAGE.getConfigValue(player) + " §aV" + newVersion);
+                Main.getInstance().getLogger().warning(enumLang.CHECK_VERSION_WARNING_MESSAGE.getConfigValue(player) + " §aV" + newVersion);
             }
         } catch (Exception e) {
-            Main.getInstance().getLogger().severe(enumLang.CHECK_VERSION_ERROR_MESSAGE.getConfigValue(new String[]{}));
+            Main.getInstance().getLogger().severe(enumLang.CHECK_VERSION_ERROR_MESSAGE.getConfigValue(player));
         }
     }
 
@@ -108,16 +104,12 @@ public class PlayerJoin implements Listener {
             Spawn.spawn(player, true);
         }
         if (enumConfig.BROADCAST_FIRST_JOIN_ENABLED.getConfigBoolean()) {
-            Bukkit.broadcastMessage(enumLang.BROADCAST_FIRST_JOIN_MESSAGE.getConfigValue(new String[]{
-                    player.getName()
-            }));
+            Bukkit.broadcastMessage(enumLang.BROADCAST_FIRST_JOIN_MESSAGE.getConfigValue(player));
         }
         if (enumConfig.WELCOME_MESSAGE_FIRST_JOIN_ENABLED.getConfigBoolean()) {
             e.setJoinMessage(null);
-            for (String message : enumConfig.WELCOME_MESSAGE_FIRST_JOIN_TEXT.getConfigStringList(new String[]{
-                    player.getName()
-            })) {
-                player.sendMessage(Utils.colorPapi(message, e.getPlayer()));
+            for (String message : enumConfig.WELCOME_MESSAGE_FIRST_JOIN_TEXT.getConfigStringList(player)) {
+                player.sendMessage(Utils.color(player, message));
             }
         }
     }
@@ -143,7 +135,7 @@ public class PlayerJoin implements Listener {
                     break;
                 }
                 default:
-                    Main.getConfiguration().set("options.set-gamemode-on-join.gamemode", gamemode);
+                    Main.getConfiguration().set(enumConfig.OPTIONS_SET_GAMEMODE_ON_JOIN_GAMEMODE.getPath(), gamemode);
                     player.setGameMode(GameMode.SURVIVAL);
             }
         }
