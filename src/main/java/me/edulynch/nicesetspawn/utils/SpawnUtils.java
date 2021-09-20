@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 
-public class SpawnUtil {
+public class SpawnUtils {
 
     public static HashMap<Player, Delay> delay = new HashMap<>();
 
@@ -67,7 +67,7 @@ public class SpawnUtil {
 
                         delay.get(player).setTime(1);
 
-                        SpawnUtil.teleport(player);
+                        SpawnUtils.teleport(player);
 
                         cancel();
 
@@ -82,7 +82,7 @@ public class SpawnUtil {
 
                             cancel();
 
-                            player.sendMessage(Util.color(player, EnumLang.MESSAGES_PLAYER_MOVE.getConfigValue(player)));
+                            player.sendMessage(MethodsUtils.color(player, EnumLang.MESSAGES_PLAYER_MOVE.getConfigValue(player)));
                         }
                     }
                 }
@@ -91,7 +91,7 @@ public class SpawnUtil {
             player.sendMessage(EnumLang.MESSAGES_TELEPORT_DELAY.getConfigValue(player));
 
         } else {
-            SpawnUtil.teleport(player);
+            SpawnUtils.teleport(player);
         }
     }
 
@@ -100,7 +100,7 @@ public class SpawnUtil {
 
         if (location == null) {
             String spawnNotSet = EnumLang.MESSAGES_SPAWN_NOT_SET.getConfigValue(player);
-            player.sendMessage(Util.color(player, spawnNotSet));
+            player.sendMessage(MethodsUtils.color(player, spawnNotSet));
         } else {
             if (!location.getChunk().isLoaded()) {
                 location.getChunk().load();

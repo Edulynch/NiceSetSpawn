@@ -1,10 +1,10 @@
 package me.edulynch.nicesetspawn.commands;
 
 import me.edulynch.nicesetspawn.config.EnumLang;
-import me.edulynch.nicesetspawn.utils.SpawnUtil;
+import me.edulynch.nicesetspawn.utils.SpawnUtils;
 import me.edulynch.nicesetspawn.interfaces.CommandTab;
-import me.edulynch.nicesetspawn.utils.Constants;
-import me.edulynch.nicesetspawn.utils.Util;
+import me.edulynch.nicesetspawn.utils.PluginConstants;
+import me.edulynch.nicesetspawn.utils.MethodsUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -19,15 +19,15 @@ public class SetSpawnCMD implements CommandTab {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (Util.verifyIfIsConsole(sender)) return true;
+        if (MethodsUtils.verifyIfIsConsole(sender)) return true;
 
         Player player = (Player) sender;
 
-        if (Util.hasPermission(player, Constants.PERMISSION_SETSPAWN)) {
+        if (MethodsUtils.hasPermission(player, PluginConstants.PERMISSION_SETSPAWN)) {
 
             Location location = player.getLocation();
 
-            SpawnUtil.setLocation(location);
+            SpawnUtils.setLocation(location);
 
             player.getWorld().setSpawnLocation(location);
 

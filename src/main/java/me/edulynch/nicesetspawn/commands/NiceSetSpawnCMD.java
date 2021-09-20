@@ -3,11 +3,11 @@ package me.edulynch.nicesetspawn.commands;
 import me.edulynch.nicesetspawn.config.EnumConfig;
 import me.edulynch.nicesetspawn.config.EnumLang;
 import me.edulynch.nicesetspawn.Main;
-import me.edulynch.nicesetspawn.utils.SpawnUtil;
+import me.edulynch.nicesetspawn.utils.SpawnUtils;
 import me.edulynch.nicesetspawn.helpers.SpawnEffect;
 import me.edulynch.nicesetspawn.interfaces.CommandTab;
-import me.edulynch.nicesetspawn.utils.Constants;
-import me.edulynch.nicesetspawn.utils.Util;
+import me.edulynch.nicesetspawn.utils.PluginConstants;
+import me.edulynch.nicesetspawn.utils.MethodsUtils;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -20,26 +20,26 @@ public class NiceSetSpawnCMD implements CommandTab {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (args.length == 0 || args[0].equalsIgnoreCase(Constants.COMMAND_HELP)) {
+        if (args.length == 0 || args[0].equalsIgnoreCase(PluginConstants.COMMAND_HELP)) {
             showHelp(sender, command);
-        } else if (args[0].equalsIgnoreCase(Constants.COMMAND_RELOAD)) {
+        } else if (args[0].equalsIgnoreCase(PluginConstants.COMMAND_RELOAD)) {
             reloadCommand(sender);
-        } else if (args[0].equalsIgnoreCase(Constants.COMMAND_SETDELAY)) {
+        } else if (args[0].equalsIgnoreCase(PluginConstants.COMMAND_SETDELAY)) {
             setDelayCommand(sender, args);
-        } else if (args[0].equalsIgnoreCase(Constants.COMMAND_INFO)) {
+        } else if (args[0].equalsIgnoreCase(PluginConstants.COMMAND_INFO)) {
             showInfo(sender);
-        } else if (args[0].equalsIgnoreCase(Constants.COMMAND_SHOWEFFECTS)) {
-            if (Util.verifyIfIsConsole(sender)) return true;
+        } else if (args[0].equalsIgnoreCase(PluginConstants.COMMAND_SHOWEFFECTS)) {
+            if (MethodsUtils.verifyIfIsConsole(sender)) return true;
             testSpawnEffects(sender);
         }
         return true;
     }
 
     private void testSpawnEffects(CommandSender sender) {
-        if (Util.hasPermission(sender, Constants.PERMISSION_SHOWEFFECTS)) {
+        if (MethodsUtils.hasPermission(sender, PluginConstants.PERMISSION_SHOWEFFECTS)) {
             Player player = (Player) sender;
             try {
-                Location location = SpawnUtil.getLocation();
+                Location location = SpawnUtils.getLocation();
                 SpawnEffect.register(location);
             } catch (Exception e) {
                 player.sendMessage(EnumLang.MESSAGES_SPAWN_NOT_SET.getConfigValue(player));
@@ -50,42 +50,42 @@ public class NiceSetSpawnCMD implements CommandTab {
     }
 
     private void showInfo(CommandSender sender) {
-        if (Util.hasPermission(sender, Constants.PERMISSION_INFO)) {
-            sender.sendMessage("§6===== §bNiceSetSpawn v" + Constants.PLUGIN_VERSION + " §6=====");
-            Util.urlHoverClick(sender, "§bSpigotMC Page:", "Visit the SpigotMC page!", Constants.URL_SPIGOTMC);
-            Util.urlHoverClick(sender, "§bGithub Page:", "Visit the Github page!", Constants.URL_GITHUB);
-            Util.urlHoverClick(sender, "§bDiscord:", "Visit the Discord!", Constants.URL_DISCORD);
+        if (MethodsUtils.hasPermission(sender, PluginConstants.PERMISSION_INFO)) {
+            sender.sendMessage("§6===== §bNiceSetSpawn v" + PluginConstants.PLUGIN_VERSION + " §6=====");
+            MethodsUtils.urlHoverClick(sender, "§bSpigotMC Page:", "Visit the SpigotMC page!", PluginConstants.URL_SPIGOTMC);
+            MethodsUtils.urlHoverClick(sender, "§bGithub Page:", "Visit the Github page!", PluginConstants.URL_GITHUB);
+            MethodsUtils.urlHoverClick(sender, "§bDiscord:", "Visit the Discord!", PluginConstants.URL_DISCORD);
         } else {
             sender.sendMessage(EnumLang.MESSAGES_NO_PERMISSION.getConfigValue(sender));
         }
     }
 
     private void showHelp(CommandSender sender, Command command) {
-        if (Util.hasPermission(sender, Constants.PERMISSION_HELP)) {
+        if (MethodsUtils.hasPermission(sender, PluginConstants.PERMISSION_HELP)) {
             sender.sendMessage("§6===== §bNiceSetSpawn §6=====");
-            sender.sendMessage("§b/spawn §7- " + Util.color(sender, EnumLang.MESSAGES_TELEPORT_SPAWN_MESSAGE.getConfigValue(sender)));
-            sender.sendMessage("§b/setspawn §7- " + Util.color(sender, EnumLang.MESSAGES_TELEPORT_SETSPAWN_MESSAGE.getConfigValue(sender)));
-            sender.sendMessage("§b/" + command.getName() + " | /" + command.getName() + " help §7- " + Util.color(sender, EnumLang.MESSAGES_COMMANDS_LIST_MESSAGE.getConfigValue(sender)));
-            sender.sendMessage("§b/" + command.getName() + " info §7- " + Util.color(sender, EnumLang.MESSAGES_PLUGIN_INFO_MESSAGE.getConfigValue(sender)));
-            sender.sendMessage("§b/" + command.getName() + " setdelay [" + Util.color(sender, EnumLang.MESSAGES_SECONDS_MESSAGE.getConfigValue(sender)) + "] §7- " + Util.color(sender, EnumLang.MESSAGES_SETSPAWN_DELAY_MESSAGE.getConfigValue(sender)));
-            sender.sendMessage("§b/" + command.getName() + " reload §7- " + Util.color(sender, EnumLang.MESSAGES_RELOAD_CONFIG_MESSAGE.getConfigValue(sender)));
+            sender.sendMessage("§b/spawn §7- " + MethodsUtils.color(sender, EnumLang.MESSAGES_TELEPORT_SPAWN_MESSAGE.getConfigValue(sender)));
+            sender.sendMessage("§b/setspawn §7- " + MethodsUtils.color(sender, EnumLang.MESSAGES_TELEPORT_SETSPAWN_MESSAGE.getConfigValue(sender)));
+            sender.sendMessage("§b/" + command.getName() + " | /" + command.getName() + " help §7- " + MethodsUtils.color(sender, EnumLang.MESSAGES_COMMANDS_LIST_MESSAGE.getConfigValue(sender)));
+            sender.sendMessage("§b/" + command.getName() + " info §7- " + MethodsUtils.color(sender, EnumLang.MESSAGES_PLUGIN_INFO_MESSAGE.getConfigValue(sender)));
+            sender.sendMessage("§b/" + command.getName() + " setdelay [" + MethodsUtils.color(sender, EnumLang.MESSAGES_SECONDS_MESSAGE.getConfigValue(sender)) + "] §7- " + MethodsUtils.color(sender, EnumLang.MESSAGES_SETSPAWN_DELAY_MESSAGE.getConfigValue(sender)));
+            sender.sendMessage("§b/" + command.getName() + " reload §7- " + MethodsUtils.color(sender, EnumLang.MESSAGES_RELOAD_CONFIG_MESSAGE.getConfigValue(sender)));
         } else {
             sender.sendMessage(EnumLang.MESSAGES_NO_PERMISSION.getConfigValue(sender));
         }
     }
 
     private void reloadCommand(@NotNull CommandSender sender) {
-        if (Util.hasPermission(sender, Constants.PERMISSION_RELOAD)) {
+        if (MethodsUtils.hasPermission(sender, PluginConstants.PERMISSION_RELOAD)) {
             Main.getInstance().reloadConfigFile();
             Main.getInstance().reloadConfigLang();
-            sender.sendMessage(Util.color(sender, EnumLang.MESSAGES_CONFIG_RELOADED.getConfigValue(sender)));
+            sender.sendMessage(MethodsUtils.color(sender, EnumLang.MESSAGES_CONFIG_RELOADED.getConfigValue(sender)));
         } else {
             sender.sendMessage(EnumLang.MESSAGES_NO_PERMISSION.getConfigValue(sender));
         }
     }
 
     private void setDelayCommand(@NotNull CommandSender sender, @NotNull String[] args) {
-        if (Util.hasPermission(sender, Constants.PERMISSION_SETDELAY)) {
+        if (MethodsUtils.hasPermission(sender, PluginConstants.PERMISSION_SETDELAY)) {
             if (args.length == 1) {
                 try {
                     sender.sendMessage(EnumLang.MESSAGES_CURRENTLY_TELEPORT_DELAY_MESSAGE.getConfigValue(sender).
@@ -118,11 +118,11 @@ public class NiceSetSpawnCMD implements CommandTab {
 
     // HasMap<PERMISSION, COMMAND>
     Map<String, String> permsCommands = new HashMap<String, String>() {{
-        put(Constants.PERMISSION_HELP, Constants.COMMAND_HELP);
-        put(Constants.COMMAND_INFO, Constants.COMMAND_INFO);
-        put(Constants.PERMISSION_SETDELAY, Constants.COMMAND_SETDELAY);
-        put(Constants.PERMISSION_RELOAD, Constants.COMMAND_RELOAD);
-        put(Constants.PERMISSION_SHOWEFFECTS, Constants.COMMAND_SHOWEFFECTS);
+        put(PluginConstants.PERMISSION_HELP, PluginConstants.COMMAND_HELP);
+        put(PluginConstants.COMMAND_INFO, PluginConstants.COMMAND_INFO);
+        put(PluginConstants.PERMISSION_SETDELAY, PluginConstants.COMMAND_SETDELAY);
+        put(PluginConstants.PERMISSION_RELOAD, PluginConstants.COMMAND_RELOAD);
+        put(PluginConstants.PERMISSION_SHOWEFFECTS, PluginConstants.COMMAND_SHOWEFFECTS);
     }};
 
     @Override
@@ -131,7 +131,7 @@ public class NiceSetSpawnCMD implements CommandTab {
             List<String> results = new ArrayList<>();
 
             for (String perms : permsCommands.keySet()) {
-                if (Util.hasPermission(sender, perms) && permsCommands.get(perms).startsWith(args[0])) {
+                if (MethodsUtils.hasPermission(sender, perms) && permsCommands.get(perms).startsWith(args[0])) {
                     results.add(permsCommands.get(perms));
                 }
             }

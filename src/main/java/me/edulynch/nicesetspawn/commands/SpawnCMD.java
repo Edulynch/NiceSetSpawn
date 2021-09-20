@@ -2,11 +2,11 @@ package me.edulynch.nicesetspawn.commands;
 
 import me.edulynch.nicesetspawn.config.EnumConfig;
 import me.edulynch.nicesetspawn.config.EnumLang;
-import me.edulynch.nicesetspawn.utils.SpawnUtil;
+import me.edulynch.nicesetspawn.utils.SpawnUtils;
 import me.edulynch.nicesetspawn.interfaces.CommandTab;
 import me.edulynch.nicesetspawn.listeners.EntityDamageByEntity;
-import me.edulynch.nicesetspawn.utils.Constants;
-import me.edulynch.nicesetspawn.utils.Util;
+import me.edulynch.nicesetspawn.utils.PluginConstants;
+import me.edulynch.nicesetspawn.utils.MethodsUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -22,7 +22,7 @@ public class SpawnCMD implements CommandTab {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
-        if (Util.verifyIfIsConsole(sender)) return true;
+        if (MethodsUtils.verifyIfIsConsole(sender)) return true;
 
         Player player = (Player) sender;
 
@@ -35,31 +35,31 @@ public class SpawnCMD implements CommandTab {
                 sender.sendMessage(EnumLang.DISABLE_SPAWN_COMMAND_IN_PVP_MESSAGE.getConfigValue(player));
 
             } else {
-                if (!Util.hasPermission(player, Constants.PERMISSION_BYPASSDELAY)) {
+                if (!MethodsUtils.hasPermission(player, PluginConstants.PERMISSION_BYPASSDELAY)) {
                     if (EnumConfig.SPAWN_COMMAND_NEED_PERMISSION.getConfigBoolean()) {
-                        if (Util.hasPermission(player, Constants.PERMISSION_SPAWN)) {
-                            SpawnUtil.spawn(player, false);
+                        if (MethodsUtils.hasPermission(player, PluginConstants.PERMISSION_SPAWN)) {
+                            SpawnUtils.spawn(player, false);
                         } else {
                             sender.sendMessage(EnumLang.MESSAGES_NO_PERMISSION.getConfigValue(sender));
                         }
                     } else {
-                        SpawnUtil.spawn(player, false);
+                        SpawnUtils.spawn(player, false);
                     }
                 } else {
-                    SpawnUtil.spawn(player, true);
+                    SpawnUtils.spawn(player, true);
                 }
             }
 
         } else if (args.length == 1) {
 
-            if (Util.hasPermission(player, Constants.PERMISSION_TELEPORTOTHERS)) {
+            if (MethodsUtils.hasPermission(player, PluginConstants.PERMISSION_TELEPORTOTHERS)) {
 
                 Player target = Bukkit.getPlayer(args[0]);
 
                 if (target != null && target.isOnline()) {
                     EntityDamageByEntity.remove(target);
-                    SpawnUtil.removeDelay(target);
-                    SpawnUtil.spawn(target, true);
+                    SpawnUtils.removeDelay(target);
+                    SpawnUtils.spawn(target, true);
 
                     player.sendMessage(EnumLang.MESSAGES_TELEPORTED_OTHER_PLAYER.getConfigValue(player));
 
@@ -77,7 +77,7 @@ public class SpawnCMD implements CommandTab {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-        if (args.length == 1 && Util.hasPermission(sender, Constants.PERMISSION_TELEPORTOTHERS)) {
+        if (args.length == 1 && MethodsUtils.hasPermission(sender, PluginConstants.PERMISSION_TELEPORTOTHERS)) {
             return null; // Bukkit will list online players.
         }
         return Collections.emptyList();

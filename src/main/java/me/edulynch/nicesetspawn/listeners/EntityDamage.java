@@ -2,8 +2,8 @@ package me.edulynch.nicesetspawn.listeners;
 
 import me.edulynch.nicesetspawn.config.EnumConfig;
 import me.edulynch.nicesetspawn.config.EnumLang;
-import me.edulynch.nicesetspawn.utils.SpawnUtil;
-import me.edulynch.nicesetspawn.utils.Util;
+import me.edulynch.nicesetspawn.utils.SpawnUtils;
+import me.edulynch.nicesetspawn.utils.MethodsUtils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,8 +26,8 @@ public class EntityDamage implements Listener {
             if (event.getCause() == EntityDamageEvent.DamageCause.VOID && EnumConfig.TELEPORT_TO_SPAWN_ON_VOID_FALL.getConfigBoolean()) {
                 event.setCancelled(true);
                 player.setFallDistance(0);
-                SpawnUtil.spawn(player, true);
-                player.sendMessage(Util.color(player, EnumLang.MESSAGES_VOID_FALL.getConfigValue(player)));
+                SpawnUtils.spawn(player, true);
+                player.sendMessage(MethodsUtils.color(player, EnumLang.MESSAGES_VOID_FALL.getConfigValue(player)));
             } else if (event.getCause() == EntityDamageEvent.DamageCause.FALL && EnumConfig.OPTIONS_DISABLE_FALL_DAMAGE.getConfigBoolean()) {
                 event.setCancelled(true);
                 player.setFallDistance(0);

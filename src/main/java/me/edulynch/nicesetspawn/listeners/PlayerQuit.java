@@ -2,7 +2,7 @@ package me.edulynch.nicesetspawn.listeners;
 
 import me.edulynch.nicesetspawn.config.EnumConfig;
 import me.edulynch.nicesetspawn.config.EnumLang;
-import me.edulynch.nicesetspawn.utils.SpawnUtil;
+import me.edulynch.nicesetspawn.utils.SpawnUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,7 +16,7 @@ public class PlayerQuit implements Listener {
         if (EnumConfig.BROADCAST_PLAYER_QUIT_ENABLED.getConfigBoolean()) {
             Player player = event.getPlayer();
             event.setQuitMessage(EnumLang.BROADCAST_PLAYER_QUIT_MESSAGE.getConfigValue(player));
-            SpawnUtil.removeDelay(player);
+            SpawnUtils.removeDelay(player);
             EntityDamageByEntity.remove(player);
         }
     }

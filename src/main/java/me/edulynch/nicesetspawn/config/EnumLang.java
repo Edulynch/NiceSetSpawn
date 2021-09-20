@@ -1,6 +1,6 @@
 package me.edulynch.nicesetspawn.config;
 
-import me.edulynch.nicesetspawn.utils.Util;
+import me.edulynch.nicesetspawn.utils.MethodsUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -142,10 +142,10 @@ public enum EnumLang {
     }
 
     public String getConfigValue(CommandSender sender) {
-        return Util.color(sender, LANG.getString(this.path, this.def));
+        return MethodsUtils.color(sender, LANG.getString(this.path, this.def));
     }
 
     public String getConfigValue(Player player) {
-        return Util.color(player, LANG.getString(this.path, this.def));
+        return MethodsUtils.color(player, LANG.getString(this.path, this.def));
     }
 }

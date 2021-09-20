@@ -1,6 +1,6 @@
 package me.edulynch.nicesetspawn.utils;
 
-public class Constants {
+public class PluginConstants {
 
     //########################### PLUGIN ############################
 

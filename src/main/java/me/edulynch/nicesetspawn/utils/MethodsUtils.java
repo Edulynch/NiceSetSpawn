@@ -10,7 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Util {
+public class MethodsUtils {
 
     public static TextComponent textComponent;
 
@@ -51,15 +51,15 @@ public class Util {
     }
 
     public static boolean hasPermission(Player player, String permission) {
-        return player.hasPermission(Constants.PREFIX_PERMISSION + "." + permission)
-                || player.hasPermission(Constants.PERMISSION_GLOBAL)
-                || player.hasPermission(Constants.PERMISSION_ALL);
+        return player.hasPermission(PluginConstants.PREFIX_PERMISSION + "." + permission)
+                || player.hasPermission(PluginConstants.PERMISSION_GLOBAL)
+                || player.hasPermission(PluginConstants.PERMISSION_ALL);
     }
 
     public static boolean hasPermission(CommandSender sender, String permission) {
-        return sender.hasPermission(Constants.PREFIX_PERMISSION + "." + permission)
-                || sender.hasPermission(Constants.PERMISSION_GLOBAL)
-                || sender.hasPermission(Constants.PERMISSION_ALL);
+        return sender.hasPermission(PluginConstants.PREFIX_PERMISSION + "." + permission)
+                || sender.hasPermission(PluginConstants.PERMISSION_GLOBAL)
+                || sender.hasPermission(PluginConstants.PERMISSION_ALL);
     }
 
     public static void urlHoverClick(CommandSender sender, String messageChat, String hoverText, String URL) {

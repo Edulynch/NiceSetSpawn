@@ -1,7 +1,7 @@
 package me.edulynch.nicesetspawn.config;
 
-import me.edulynch.nicesetspawn.utils.Constants;
-import me.edulynch.nicesetspawn.utils.Util;
+import me.edulynch.nicesetspawn.utils.PluginConstants;
+import me.edulynch.nicesetspawn.utils.MethodsUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -116,7 +116,7 @@ public enum EnumConfig {
     /**
      * config-version
      */
-    CONFIG_VERSION("config-version", Constants.PLUGIN_VERSION, String.class),
+    CONFIG_VERSION("config-version", PluginConstants.PLUGIN_VERSION, String.class),
     /**
      * options.disable-damage
      */
@@ -213,7 +213,7 @@ public enum EnumConfig {
         List<String> tempList = new ArrayList<>();
 
         for (String value : valueList) {
-            value = Util.color(sender, value);
+            value = MethodsUtils.color(sender, value);
             tempList.add(value);
         }
 
@@ -226,7 +226,7 @@ public enum EnumConfig {
         List<String> tempList = new ArrayList<>();
 
         for (String value : valueList) {
-            value = Util.color(player, value);
+            value = MethodsUtils.color(player, value);
             tempList.add(value);
         }
 
@@ -235,12 +235,12 @@ public enum EnumConfig {
 
     @SuppressWarnings("unused")
     public String getConfigString(CommandSender sender) {
-        return Util.color(sender, CONFIG.getString(this.path, this.string));
+        return MethodsUtils.color(sender, CONFIG.getString(this.path, this.string));
     }
 
     @SuppressWarnings({"unused"})
     public String getConfigString(Player player) {
-        return Util.color(player, CONFIG.getString(this.path, this.string));
+        return MethodsUtils.color(player, CONFIG.getString(this.path, this.string));
     }
 
     public boolean getConfigBoolean() {

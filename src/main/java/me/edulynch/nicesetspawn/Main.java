@@ -8,7 +8,7 @@ import me.edulynch.nicesetspawn.commands.SpawnCMD;
 import me.edulynch.nicesetspawn.helpers.ConfigWrapper;
 import me.edulynch.nicesetspawn.listeners.*;
 import me.edulynch.nicesetspawn.placeholderapi.NSSExpansion;
-import me.edulynch.nicesetspawn.utils.Constants;
+import me.edulynch.nicesetspawn.utils.PluginConstants;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -75,7 +75,7 @@ public final class Main extends JavaPlugin {
         Logger.getLogger("").info("");
         Logger.getLogger("").info(ChatColor.DARK_AQUA + " _   _  _____ _____ ");
         Logger.getLogger("").info(ChatColor.DARK_AQUA + "| \\ | |/ ____/ ____|");
-        Logger.getLogger("").info(ChatColor.DARK_AQUA + "|  \\| | (___| (___  " + "\t" + ChatColor.DARK_GREEN + Constants.PLUGIN_NAME + ChatColor.AQUA + " v" + Constants.PLUGIN_VERSION);
+        Logger.getLogger("").info(ChatColor.DARK_AQUA + "|  \\| | (___| (___  " + "\t" + ChatColor.DARK_GREEN + PluginConstants.PLUGIN_NAME + ChatColor.AQUA + " v" + PluginConstants.PLUGIN_VERSION);
         Logger.getLogger("").info(ChatColor.DARK_AQUA + "| . ` |\\___ \\\\___ \\" + "\t" + ChatColor.DARK_GRAY + "Running on " + getServer().getName());
         Logger.getLogger("").info(ChatColor.DARK_AQUA + "| |\\  |____) |___) |");
         Logger.getLogger("").info(ChatColor.DARK_AQUA + "|_| \\_|_____/_____/ ");
@@ -105,7 +105,7 @@ public final class Main extends JavaPlugin {
         configWrapper.saveConfig();
 
         String version = EnumConfig.CONFIG_VERSION.getConfigString(null);
-        if (!version.equalsIgnoreCase(Constants.PLUGIN_VERSION)) {
+        if (!version.equalsIgnoreCase(PluginConstants.PLUGIN_VERSION)) {
             configWrapper.checkVersion();
             configWrapper.convertOldConfig();
             loadConfig();
@@ -130,21 +130,21 @@ public final class Main extends JavaPlugin {
 
     private void registerCommands() {
         SetSpawnCMD setSpawnCmd = new SetSpawnCMD();
-        PluginCommand setSpawnPC = getCommand(Constants.COMMAND_SETSPAWN);
+        PluginCommand setSpawnPC = getCommand(PluginConstants.COMMAND_SETSPAWN);
         if (setSpawnPC != null) {
             setSpawnPC.setExecutor(setSpawnCmd);
             setSpawnPC.setTabCompleter(setSpawnCmd);
         }
 
         SpawnCMD spawnCmd = new SpawnCMD();
-        PluginCommand spawnPC = getCommand(Constants.COMMAND_SPAWN);
+        PluginCommand spawnPC = getCommand(PluginConstants.COMMAND_SPAWN);
         if (spawnPC != null) {
             spawnPC.setExecutor(spawnCmd);
             spawnPC.setTabCompleter(spawnCmd);
         }
 
         NiceSetSpawnCMD niceSetSpawnCmd = new NiceSetSpawnCMD();
-        PluginCommand niceSetSpawnPC = getCommand(Constants.COMMAND_NSS);
+        PluginCommand niceSetSpawnPC = getCommand(PluginConstants.COMMAND_NSS);
         if (niceSetSpawnPC != null) {
             niceSetSpawnPC.setExecutor(niceSetSpawnCmd);
             niceSetSpawnPC.setTabCompleter(niceSetSpawnCmd);

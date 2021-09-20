@@ -2,7 +2,7 @@ package me.edulynch.nicesetspawn.placeholderapi;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.edulynch.nicesetspawn.Main;
-import me.edulynch.nicesetspawn.utils.Constants;
+import me.edulynch.nicesetspawn.utils.PluginConstants;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -16,12 +16,12 @@ public class NSSExpansion extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getAuthor() {
-        return Constants.PLUGIN_AUTHOR;
+        return PluginConstants.PLUGIN_AUTHOR;
     }
 
     @Override
     public @NotNull String getVersion() {
-        return Constants.PLUGIN_VERSION;
+        return PluginConstants.PLUGIN_VERSION;
     }
 
     @Override
