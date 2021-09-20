@@ -1,10 +1,10 @@
 package me.edulynch.nicesetspawn.commands;
 
-import me.edulynch.nicesetspawn.Config.enumLang;
-import me.edulynch.nicesetspawn.helpers.Spawn;
+import me.edulynch.nicesetspawn.config.EnumLang;
+import me.edulynch.nicesetspawn.utils.SpawnUtil;
 import me.edulynch.nicesetspawn.interfaces.CommandTab;
 import me.edulynch.nicesetspawn.utils.Constants;
-import me.edulynch.nicesetspawn.utils.Utils;
+import me.edulynch.nicesetspawn.utils.Util;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -19,22 +19,22 @@ public class SetSpawnCMD implements CommandTab {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (Utils.verifyIfIsConsole(sender)) return true;
+        if (Util.verifyIfIsConsole(sender)) return true;
 
         Player player = (Player) sender;
 
-        if (Utils.hasPermission(player, Constants.PERMISSION_SETSPAWN)) {
+        if (Util.hasPermission(player, Constants.PERMISSION_SETSPAWN)) {
 
             Location location = player.getLocation();
 
-            Spawn.setLocation(location);
+            SpawnUtil.setLocation(location);
 
             player.getWorld().setSpawnLocation(location);
 
-            player.sendMessage(enumLang.MESSAGES_SPAWN_SUCCESSFULLY_SET.getConfigValue(player));
+            player.sendMessage(EnumLang.MESSAGES_SPAWN_SUCCESSFULLY_SET.getConfigValue(player));
 
         } else {
-            sender.sendMessage(enumLang.MESSAGES_NO_PERMISSION.getConfigValue(sender));
+            sender.sendMessage(EnumLang.MESSAGES_NO_PERMISSION.getConfigValue(sender));
         }
 
         return true;

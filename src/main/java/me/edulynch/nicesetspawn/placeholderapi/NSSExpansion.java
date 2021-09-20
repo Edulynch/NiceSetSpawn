@@ -5,16 +5,9 @@ import me.edulynch.nicesetspawn.Main;
 import me.edulynch.nicesetspawn.utils.Constants;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 public class NSSExpansion extends PlaceholderExpansion {
-
-    private final Plugin plugin;
-
-    public NSSExpansion(Main plugin) {
-        this.plugin = plugin;
-    }
 
     @Override
     public @NotNull String getIdentifier() {

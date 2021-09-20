@@ -1,11 +1,11 @@
 package me.edulynch.nicesetspawn.listeners;
 
-import me.edulynch.nicesetspawn.Config.enumConfig;
-import me.edulynch.nicesetspawn.Config.enumLang;
+import me.edulynch.nicesetspawn.config.EnumConfig;
+import me.edulynch.nicesetspawn.config.EnumLang;
 import me.edulynch.nicesetspawn.Main;
-import me.edulynch.nicesetspawn.helpers.Spawn;
+import me.edulynch.nicesetspawn.utils.SpawnUtil;
 import me.edulynch.nicesetspawn.utils.Constants;
-import me.edulynch.nicesetspawn.utils.Utils;
+import me.edulynch.nicesetspawn.utils.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -37,40 +37,40 @@ public class PlayerJoin implements Listener {
     }
 
     private void playerHealthAndFood(Player player) {
-        if (enumConfig.OPTIONS_SET_MAX_HEALTH_ON_JOIN.getConfigBoolean()) {
+        if (EnumConfig.OPTIONS_SET_MAX_HEALTH_ON_JOIN.getConfigBoolean()) {
             player.setHealth(20);
         }
 
-        if (enumConfig.OPTIONS_SET_MAX_FOOD_LEVEL_ON_JOIN.getConfigBoolean()) {
+        if (EnumConfig.OPTIONS_SET_MAX_FOOD_LEVEL_ON_JOIN.getConfigBoolean()) {
             player.setFoodLevel(20);
         }
 
     }
 
     private void playerFly(Player player) {
-        if (enumConfig.OPTIONS_SET_FLY_ON_JOIN_ENABLED.getConfigBoolean()) {
+        if (EnumConfig.OPTIONS_SET_FLY_ON_JOIN_ENABLED.getConfigBoolean()) {
             player.setAllowFlight(true);
-            player.sendMessage(enumLang.OPTIONS_SET_FLY_ON_JOIN_MESSAGE.getConfigValue(player));
+            player.sendMessage(EnumLang.OPTIONS_SET_FLY_ON_JOIN_MESSAGE.getConfigValue(player));
         } else {
             player.setAllowFlight(false);
         }
     }
 
     private void playerJoin(Player player, PlayerJoinEvent e) {
-        if (player.isOp() && enumConfig.CHECK_VERSION_ENABLED.getConfigBoolean()) {
+        if (player.isOp() && EnumConfig.CHECK_VERSION_ENABLED.getConfigBoolean()) {
             checkNewVersionAvailable(player);
         }
 
-        if (enumConfig.TELEPORT_TO_SPAWN_ON_JOIN.getConfigBoolean()) {
-            Spawn.spawn(player, true);
+        if (EnumConfig.TELEPORT_TO_SPAWN_ON_JOIN.getConfigBoolean()) {
+            SpawnUtil.spawn(player, true);
         }
-        if (enumConfig.BROADCAST_PLAYER_JOIN_ENABLED.getConfigBoolean()) {
-            Bukkit.broadcastMessage(enumLang.BROADCAST_PLAYER_JOIN_MESSAGE.getConfigValue(player));
+        if (EnumConfig.BROADCAST_PLAYER_JOIN_ENABLED.getConfigBoolean()) {
+            Bukkit.broadcastMessage(EnumLang.BROADCAST_PLAYER_JOIN_MESSAGE.getConfigValue(player));
         }
-        if (enumConfig.WELCOME_MESSAGE_PLAYER_JOIN_ENABLED.getConfigBoolean()) {
+        if (EnumConfig.WELCOME_MESSAGE_PLAYER_JOIN_ENABLED.getConfigBoolean()) {
             e.setJoinMessage(null);
-            for (String message : enumConfig.WELCOME_MESSAGE_PLAYER_JOIN_TEXT.getConfigStringList(player)) {
-                player.sendMessage(Utils.color(player, message));
+            for (String message : EnumConfig.WELCOME_MESSAGE_PLAYER_JOIN_TEXT.getConfigStringList(player)) {
+                player.sendMessage(Util.color(player, message));
             }
         }
     }
@@ -91,32 +91,32 @@ public class PlayerJoin implements Listener {
             }
             reader.close();
             if (isNewVersionAvailable) {
-                player.sendMessage(enumLang.CHECK_VERSION_WARNING_MESSAGE.getConfigValue(player) + " §aV" + newVersion);
-                Main.getInstance().getLogger().warning(enumLang.CHECK_VERSION_WARNING_MESSAGE.getConfigValue(player) + " §aV" + newVersion);
+                player.sendMessage(EnumLang.CHECK_VERSION_WARNING_MESSAGE.getConfigValue(player) + " §aV" + newVersion);
+                Main.getInstance().getLogger().warning(EnumLang.CHECK_VERSION_WARNING_MESSAGE.getConfigValue(player) + " §aV" + newVersion);
             }
         } catch (Exception e) {
-            Main.getInstance().getLogger().severe(enumLang.CHECK_VERSION_ERROR_MESSAGE.getConfigValue(player));
+            Main.getInstance().getLogger().severe(EnumLang.CHECK_VERSION_ERROR_MESSAGE.getConfigValue(player));
         }
     }
 
     private void playerFirstJoin(Player player, PlayerJoinEvent e) {
-        if (enumConfig.TELEPORT_TO_SPAWN_ON_FIRST_JOIN.getConfigBoolean()) {
-            Spawn.spawn(player, true);
+        if (EnumConfig.TELEPORT_TO_SPAWN_ON_FIRST_JOIN.getConfigBoolean()) {
+            SpawnUtil.spawn(player, true);
         }
-        if (enumConfig.BROADCAST_FIRST_JOIN_ENABLED.getConfigBoolean()) {
-            Bukkit.broadcastMessage(enumLang.BROADCAST_FIRST_JOIN_MESSAGE.getConfigValue(player));
+        if (EnumConfig.BROADCAST_FIRST_JOIN_ENABLED.getConfigBoolean()) {
+            Bukkit.broadcastMessage(EnumLang.BROADCAST_FIRST_JOIN_MESSAGE.getConfigValue(player));
         }
-        if (enumConfig.WELCOME_MESSAGE_FIRST_JOIN_ENABLED.getConfigBoolean()) {
+        if (EnumConfig.WELCOME_MESSAGE_FIRST_JOIN_ENABLED.getConfigBoolean()) {
             e.setJoinMessage(null);
-            for (String message : enumConfig.WELCOME_MESSAGE_FIRST_JOIN_TEXT.getConfigStringList(player)) {
-                player.sendMessage(Utils.color(player, message));
+            for (String message : EnumConfig.WELCOME_MESSAGE_FIRST_JOIN_TEXT.getConfigStringList(player)) {
+                player.sendMessage(Util.color(player, message));
             }
         }
     }
 
     private void playerGameMode(Player player) {
-        if (enumConfig.OPTIONS_SET_GAMEMODE_ON_JOIN_ENABLED.getConfigBoolean()) {
-            int gamemode = enumConfig.OPTIONS_SET_GAMEMODE_ON_JOIN_GAMEMODE.getConfigInteger();
+        if (EnumConfig.OPTIONS_SET_GAMEMODE_ON_JOIN_ENABLED.getConfigBoolean()) {
+            int gamemode = EnumConfig.OPTIONS_SET_GAMEMODE_ON_JOIN_GAMEMODE.getConfigInteger();
             switch (gamemode) {
                 case 0: {
                     player.setGameMode(GameMode.SURVIVAL);
@@ -135,7 +135,7 @@ public class PlayerJoin implements Listener {
                     break;
                 }
                 default:
-                    Main.getConfiguration().set(enumConfig.OPTIONS_SET_GAMEMODE_ON_JOIN_GAMEMODE.getPath(), gamemode);
+                    Main.getConfiguration().set(EnumConfig.OPTIONS_SET_GAMEMODE_ON_JOIN_GAMEMODE.getPath(), gamemode);
                     player.setGameMode(GameMode.SURVIVAL);
             }
         }

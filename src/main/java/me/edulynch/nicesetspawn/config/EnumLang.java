@@ -1,11 +1,11 @@
-package me.edulynch.nicesetspawn.Config;
+package me.edulynch.nicesetspawn.config;
 
-import me.edulynch.nicesetspawn.utils.Utils;
+import me.edulynch.nicesetspawn.utils.Util;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-public enum enumLang {
+public enum EnumLang {
     /**
      * check-version.warning-message
      */
@@ -124,7 +124,7 @@ public enum enumLang {
     private final String def;
     private static FileConfiguration LANG;
 
-    enumLang(final String path, final String start) {
+    EnumLang(final String path, final String start) {
         this.path = path;
         this.def = start;
     }
@@ -142,10 +142,10 @@ public enum enumLang {
     }
 
     public String getConfigValue(CommandSender sender) {
-        return Utils.color(sender, LANG.getString(this.path, this.def));
+        return Util.color(sender, LANG.getString(this.path, this.def));
     }
 
     public String getConfigValue(Player player) {
-        return Utils.color(player, LANG.getString(this.path, this.def));
+        return Util.color(player, LANG.getString(this.path, this.def));
     }
 }

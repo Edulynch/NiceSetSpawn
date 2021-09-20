@@ -13,7 +13,8 @@ public class ConfigWrapper {
     private final JavaPlugin plugin;
     private FileConfiguration config;
     private File configFile;
-    private final String folderName, fileName;
+    private final String folderName;
+    private final String fileName;
 
     public ConfigWrapper(final JavaPlugin instance, final String folderName,
                          final String fileName) {

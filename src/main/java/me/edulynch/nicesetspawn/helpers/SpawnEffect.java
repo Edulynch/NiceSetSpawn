@@ -1,6 +1,6 @@
 package me.edulynch.nicesetspawn.helpers;
 
-import me.edulynch.nicesetspawn.Config.enumConfig;
+import me.edulynch.nicesetspawn.config.EnumConfig;
 import me.edulynch.nicesetspawn.Main;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
@@ -20,23 +20,23 @@ public class SpawnEffect {
 
     @SuppressWarnings("all")
     private static void playSoundInWorld(Location location) {
-        if (enumConfig.OPTIONS_SPAWN_SOUND_ENABLED.getConfigBoolean()) {
+        if (EnumConfig.OPTIONS_SPAWN_SOUND_ENABLED.getConfigBoolean()) {
             World world = location.getWorld();
-            Sound sound = Sound.valueOf(enumConfig.OPTIONS_SPAWN_SOUND_NAME.getConfigString(null));
+            Sound sound = Sound.valueOf(EnumConfig.OPTIONS_SPAWN_SOUND_NAME.getConfigString(null));
             world.playSound(location, sound, 100, 0);
 
         }
     }
 
     private static void createHelix(Location location) {
-        if (enumConfig.OPTIONS_SPAWN_PARTICLE_ENABLED.getConfigBoolean()) {
+        if (EnumConfig.OPTIONS_SPAWN_PARTICLE_ENABLED.getConfigBoolean()) {
             int radius = 2;
             for (double y = 0; y <= 20; y += 0.025) {
                 double x = radius * Math.cos(y * 7);
                 double z = radius * Math.sin(y * 7);
                 String search = "";
                 try {
-                    search = enumConfig.OPTIONS_SPAWN_PARTICLE_NAME.getConfigString(null);
+                    search = EnumConfig.OPTIONS_SPAWN_PARTICLE_NAME.getConfigString(null);
                     ParticleEffect particle = ParticleEffect.valueOf(search);
                     ParticleBuilder particleBuilder = new ParticleBuilder(particle,
                             new Location(location.getWorld(), (float) (location.getX() + x), (float) (location.getY() + y), (float) (location.getZ() + z)))
@@ -53,7 +53,7 @@ public class SpawnEffect {
 
     @SuppressWarnings("all")
     private static void spawnFireworks(Location location) {
-        if (enumConfig.OPTIONS_SPAWN_FIREWORKS_ENABLED.getConfigBoolean()) {
+        if (EnumConfig.OPTIONS_SPAWN_FIREWORKS_ENABLED.getConfigBoolean()) {
 
             Firework fw = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
             fw.setMetadata("nodamage", new FixedMetadataValue(Main.getInstance(), true));
@@ -65,7 +65,7 @@ public class SpawnEffect {
             fw.setFireworkMeta(fwm);
             fw.detonate();
 
-            for (int i = 0; i < enumConfig.OPTIONS_SPAWN_FIREWORKS_AMOUNT.getConfigInteger(); i++) {
+            for (int i = 0; i < EnumConfig.OPTIONS_SPAWN_FIREWORKS_AMOUNT.getConfigInteger(); i++) {
                 Firework fw2 = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
                 FireworkMeta fwm2 = fw.getFireworkMeta();
                 fwm2.addEffect(FireworkEffect.builder().withColor(Color.LIME).flicker(true).build());

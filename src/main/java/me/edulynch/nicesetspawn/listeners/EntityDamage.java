@@ -1,9 +1,9 @@
 package me.edulynch.nicesetspawn.listeners;
 
-import me.edulynch.nicesetspawn.Config.enumConfig;
-import me.edulynch.nicesetspawn.Config.enumLang;
-import me.edulynch.nicesetspawn.helpers.Spawn;
-import me.edulynch.nicesetspawn.utils.Utils;
+import me.edulynch.nicesetspawn.config.EnumConfig;
+import me.edulynch.nicesetspawn.config.EnumLang;
+import me.edulynch.nicesetspawn.utils.SpawnUtil;
+import me.edulynch.nicesetspawn.utils.Util;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,12 +23,12 @@ public class EntityDamage implements Listener {
 
             Player player = (Player) event.getEntity();
 
-            if (event.getCause() == EntityDamageEvent.DamageCause.VOID && enumConfig.TELEPORT_TO_SPAWN_ON_VOID_FALL.getConfigBoolean()) {
+            if (event.getCause() == EntityDamageEvent.DamageCause.VOID && EnumConfig.TELEPORT_TO_SPAWN_ON_VOID_FALL.getConfigBoolean()) {
                 event.setCancelled(true);
                 player.setFallDistance(0);
-                Spawn.spawn(player, true);
-                player.sendMessage(Utils.color(player, enumLang.MESSAGES_VOID_FALL.getConfigValue(player)));
-            } else if (event.getCause() == EntityDamageEvent.DamageCause.FALL && enumConfig.OPTIONS_DISABLE_FALL_DAMAGE.getConfigBoolean()) {
+                SpawnUtil.spawn(player, true);
+                player.sendMessage(Util.color(player, EnumLang.MESSAGES_VOID_FALL.getConfigValue(player)));
+            } else if (event.getCause() == EntityDamageEvent.DamageCause.FALL && EnumConfig.OPTIONS_DISABLE_FALL_DAMAGE.getConfigBoolean()) {
                 event.setCancelled(true);
                 player.setFallDistance(0);
             } else {
@@ -41,7 +41,7 @@ public class EntityDamage implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onHungerDeplete(FoodLevelChangeEvent e) {
-        if (e.getEntity() instanceof Player && enumConfig.OPTIONS_DISABLE_HUNGER_DEPLETE.getConfigBoolean()) {
+        if (e.getEntity() instanceof Player && EnumConfig.OPTIONS_DISABLE_HUNGER_DEPLETE.getConfigBoolean()) {
             e.setCancelled(true);
             e.setFoodLevel(20);
         } else {

@@ -1,9 +1,9 @@
 package me.edulynch.nicesetspawn.listeners;
 
-import me.edulynch.nicesetspawn.Config.enumConfig;
+import me.edulynch.nicesetspawn.config.EnumConfig;
 import me.edulynch.nicesetspawn.Main;
 import me.edulynch.nicesetspawn.utils.Constants;
-import me.edulynch.nicesetspawn.utils.Utils;
+import me.edulynch.nicesetspawn.utils.Util;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -31,7 +31,7 @@ public class EntityDamageByEntity implements Listener {
             }
         }
 
-        if (!((e.getEntity() instanceof Player) && enumConfig.DISABLE_SPAWN_COMMAND_IN_PVP_ENABLED.getConfigBoolean())) {
+        if (!((e.getEntity() instanceof Player) && EnumConfig.DISABLE_SPAWN_COMMAND_IN_PVP_ENABLED.getConfigBoolean())) {
             return;
         }
 
@@ -47,7 +47,7 @@ public class EntityDamageByEntity implements Listener {
     }
 
     public static boolean containsKey(Player p) {
-        if (!Utils.hasPermission(p, Constants.PERMISSION_BYPASSPVP)) {
+        if (!Util.hasPermission(p, Constants.PERMISSION_BYPASSPVP)) {
             return pvp.containsKey(p);
         } else {
             return false;
@@ -81,7 +81,7 @@ public class EntityDamageByEntity implements Listener {
                 }
             }
 
-        }.runTaskLater(Main.getInstance(), enumConfig.DISABLE_SPAWN_COMMAND_IN_PVP_SECONDS.getConfigInteger() * 20L));
+        }.runTaskLater(Main.getInstance(), EnumConfig.DISABLE_SPAWN_COMMAND_IN_PVP_SECONDS.getConfigInteger() * 20L));
     }
 
 }

@@ -1,7 +1,7 @@
 package me.edulynch.nicesetspawn;
 
-import me.edulynch.nicesetspawn.Config.enumConfig;
-import me.edulynch.nicesetspawn.Config.enumLang;
+import me.edulynch.nicesetspawn.config.EnumConfig;
+import me.edulynch.nicesetspawn.config.EnumLang;
 import me.edulynch.nicesetspawn.commands.NiceSetSpawnCMD;
 import me.edulynch.nicesetspawn.commands.SetSpawnCMD;
 import me.edulynch.nicesetspawn.commands.SpawnCMD;
@@ -23,9 +23,6 @@ import java.util.logging.Logger;
 
 public final class Main extends JavaPlugin {
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private ConfigWrapper langWrapper, configWrapper;
-
     private static Main instance;
 
     @Override
@@ -42,7 +39,7 @@ public final class Main extends JavaPlugin {
         registerListeners();
         registerCommands();
 
-        if (enumConfig.BSTATS_METRICS.getConfigBoolean()) {
+        if (EnumConfig.BSTATS_METRICS.getConfigBoolean()) {
             registerMetrics();
         }
 
@@ -50,7 +47,7 @@ public final class Main extends JavaPlugin {
 
     private void enableLibraries() {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new NSSExpansion(this).register();
+            new NSSExpansion().register();
         } else {
             getLogger().warning("Could not find PlaceholderAPI! This plugin is required.");
             Bukkit.getPluginManager().disablePlugin(this);
@@ -87,12 +84,12 @@ public final class Main extends JavaPlugin {
 
     private void loadConfig() {
         // Load config.yml
-        configWrapper = new ConfigWrapper(this, "", "config.yml");
+        ConfigWrapper configWrapper = new ConfigWrapper(this, "", "config.yml");
         configWrapper.createNewFile("Loading NiceSetSpawn config.yml", "NiceSetSpawn Config file");
 
-        enumConfig.setFile(configWrapper.getConfig());
+        EnumConfig.setFile(configWrapper.getConfig());
 
-        for (final enumConfig value : enumConfig.values()) {
+        for (final EnumConfig value : EnumConfig.values()) {
             if (value.getValueType() == String.class) {
                 configWrapper.getConfig().addDefault(value.getPath(), value.getString());
             } else if (value.getValueType() == Boolean.class) {
@@ -107,7 +104,7 @@ public final class Main extends JavaPlugin {
         configWrapper.getConfig().options().copyDefaults(true);
         configWrapper.saveConfig();
 
-        String version = enumConfig.CONFIG_VERSION.getConfigString(null);
+        String version = EnumConfig.CONFIG_VERSION.getConfigString(null);
         if (!version.equalsIgnoreCase(Constants.PLUGIN_VERSION)) {
             configWrapper.checkVersion();
             configWrapper.convertOldConfig();
@@ -118,12 +115,12 @@ public final class Main extends JavaPlugin {
 
     private void loadMessagesLang() {
         // Load messages.yml
-        langWrapper = new ConfigWrapper(this, File.separator + "Languages", "messages-" + enumConfig.TRANSLATE_MESSAGES.getConfigString(null) + ".yml");
+        ConfigWrapper langWrapper = new ConfigWrapper(this, File.separator + "Languages", "messages-" + EnumConfig.TRANSLATE_MESSAGES.getConfigString(null) + ".yml");
         langWrapper.createNewFile("Loading NiceSetSpawn messages.yml", "NiceSetSpawn Messages file");
 
-        enumLang.setFile(langWrapper.getConfig());
+        EnumLang.setFile(langWrapper.getConfig());
 
-        for (final enumLang value : enumLang.values()) {
+        for (final EnumLang value : EnumLang.values()) {
             langWrapper.getConfig().addDefault(value.getPath(), value.getDefault());
         }
 

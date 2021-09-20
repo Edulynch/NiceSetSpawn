@@ -1,7 +1,7 @@
 package me.edulynch.nicesetspawn.utils;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.edulynch.nicesetspawn.Config.enumLang;
+import me.edulynch.nicesetspawn.config.EnumLang;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -10,7 +10,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class Utils {
+public class Util {
 
     public static TextComponent textComponent;
 
@@ -39,7 +39,7 @@ public class Utils {
         if (sender instanceof Player) {
             return false;
         } else {
-            String onlyPlayer = enumLang.MESSAGES_CONSOLE_USE_COMMAND.getConfigValue(sender);
+            String onlyPlayer = EnumLang.MESSAGES_CONSOLE_USE_COMMAND.getConfigValue(sender);
             String onlyPlayerColor = onlyPlayer.replaceAll("&", "§");
             sender.sendMessage(onlyPlayerColor);
             return true;

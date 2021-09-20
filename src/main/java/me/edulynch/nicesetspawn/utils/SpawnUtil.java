@@ -1,10 +1,10 @@
-package me.edulynch.nicesetspawn.helpers;
+package me.edulynch.nicesetspawn.utils;
 
-import me.edulynch.nicesetspawn.Config.enumConfig;
-import me.edulynch.nicesetspawn.Config.enumLang;
+import me.edulynch.nicesetspawn.config.EnumConfig;
+import me.edulynch.nicesetspawn.config.EnumLang;
 import me.edulynch.nicesetspawn.Main;
+import me.edulynch.nicesetspawn.helpers.SpawnEffect;
 import me.edulynch.nicesetspawn.models.Delay;
-import me.edulynch.nicesetspawn.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -13,7 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 
-public class Spawn {
+public class SpawnUtil {
 
     public static HashMap<Player, Delay> delay = new HashMap<>();
 
@@ -54,10 +54,8 @@ public class Spawn {
 
     public static void spawn(Player player, boolean bypass) {
         if (!bypass) {
-            if (delay.containsKey(player)) {
-                if (delay.get(player).getTask().isSync()) {
-                    delay.get(player).getTask().cancel();
-                }
+            if (delay.containsKey(player) && delay.get(player).getTask().isSync()) {
+                delay.get(player).getTask().cancel();
             }
 
             Location location = player.getLocation();
@@ -65,11 +63,11 @@ public class Spawn {
             delay.put(player, new Delay(new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if (delay.get(player).getTime() >= enumConfig.TELEPORT_DELAY_IN_SECONDS.getConfigInteger()) {
+                    if (delay.get(player).getTime() >= EnumConfig.TELEPORT_DELAY_IN_SECONDS.getConfigInteger()) {
 
                         delay.get(player).setTime(1);
 
-                        Spawn.teleport(player);
+                        SpawnUtil.teleport(player);
 
                         cancel();
 
@@ -84,16 +82,16 @@ public class Spawn {
 
                             cancel();
 
-                            player.sendMessage(Utils.color(player, enumLang.MESSAGES_PLAYER_MOVE.getConfigValue(player)));
+                            player.sendMessage(Util.color(player, EnumLang.MESSAGES_PLAYER_MOVE.getConfigValue(player)));
                         }
                     }
                 }
             }.runTaskTimer(Main.getInstance(), 20L, 20L), (int) location.getX(), (int) location.getY(), (int) location.getZ()));
 
-            player.sendMessage(enumLang.MESSAGES_TELEPORT_DELAY.getConfigValue(player));
+            player.sendMessage(EnumLang.MESSAGES_TELEPORT_DELAY.getConfigValue(player));
 
         } else {
-            Spawn.teleport(player);
+            SpawnUtil.teleport(player);
         }
     }
 
@@ -101,16 +99,16 @@ public class Spawn {
         Location location = getLocation();
 
         if (location == null) {
-            String spawnNotSet = enumLang.MESSAGES_SPAWN_NOT_SET.getConfigValue(player);
-            player.sendMessage(Utils.color(player, spawnNotSet));
+            String spawnNotSet = EnumLang.MESSAGES_SPAWN_NOT_SET.getConfigValue(player);
+            player.sendMessage(Util.color(player, spawnNotSet));
         } else {
             if (!location.getChunk().isLoaded()) {
                 location.getChunk().load();
             }
             player.teleport(location);
             SpawnEffect.register(location);
-            if (enumConfig.SPAWN_COMMAND_MESSAGE_ENABLED.getConfigBoolean()) {
-                player.sendMessage(enumLang.SPAWN_COMMAND_MESSAGE.getConfigValue(player));
+            if (EnumConfig.SPAWN_COMMAND_MESSAGE_ENABLED.getConfigBoolean()) {
+                player.sendMessage(EnumLang.SPAWN_COMMAND_MESSAGE.getConfigValue(player));
             }
         }
     }

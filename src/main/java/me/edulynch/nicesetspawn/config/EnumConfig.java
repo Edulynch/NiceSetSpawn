@@ -1,7 +1,7 @@
-package me.edulynch.nicesetspawn.Config;
+package me.edulynch.nicesetspawn.config;
 
 import me.edulynch.nicesetspawn.utils.Constants;
-import me.edulynch.nicesetspawn.utils.Utils;
+import me.edulynch.nicesetspawn.utils.Util;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public enum enumConfig {
+public enum EnumConfig {
     /**
      * bstats-metrics
      */
@@ -159,25 +159,25 @@ public enum enumConfig {
     private static FileConfiguration CONFIG;
     private final Class<?> valueType;
 
-    enumConfig(final String path, final boolean value, Class<?> valueType) {
+    EnumConfig(final String path, final boolean value, Class<?> valueType) {
         this.path = path;
         this.bool = value;
         this.valueType = valueType;
     }
 
-    enumConfig(final String path, final String value, Class<?> valueType) {
+    EnumConfig(final String path, final String value, Class<?> valueType) {
         this.path = path;
         this.string = value;
         this.valueType = valueType;
     }
 
-    enumConfig(final String path, final List<String> stringList, Class<?> valueType) {
+    EnumConfig(final String path, final List<String> stringList, Class<?> valueType) {
         this.path = path;
         this.stringList = stringList;
         this.valueType = valueType;
     }
 
-    enumConfig(final String path, final int value, Class<?> valueType) {
+    EnumConfig(final String path, final int value, Class<?> valueType) {
         this.path = path;
         this.num = value;
         this.valueType = valueType;
@@ -213,7 +213,7 @@ public enum enumConfig {
         List<String> tempList = new ArrayList<>();
 
         for (String value : valueList) {
-            value = Utils.color(sender, value);
+            value = Util.color(sender, value);
             tempList.add(value);
         }
 
@@ -226,7 +226,7 @@ public enum enumConfig {
         List<String> tempList = new ArrayList<>();
 
         for (String value : valueList) {
-            value = Utils.color(player, value);
+            value = Util.color(player, value);
             tempList.add(value);
         }
 
@@ -235,12 +235,12 @@ public enum enumConfig {
 
     @SuppressWarnings("unused")
     public String getConfigString(CommandSender sender) {
-        return Utils.color(sender, CONFIG.getString(this.path, this.string));
+        return Util.color(sender, CONFIG.getString(this.path, this.string));
     }
 
     @SuppressWarnings({"unused"})
     public String getConfigString(Player player) {
-        return Utils.color(player, CONFIG.getString(this.path, this.string));
+        return Util.color(player, CONFIG.getString(this.path, this.string));
     }
 
     public boolean getConfigBoolean() {
